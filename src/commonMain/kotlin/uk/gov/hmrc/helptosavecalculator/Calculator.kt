@@ -16,6 +16,7 @@
 package uk.gov.hmrc.helptosavecalculator
 
 import com.soywiz.klock.DateTime
+import kotlin.jvm.JvmOverloads
 import uk.gov.hmrc.helptosavecalculator.config.HtSSchemeConfig
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidAccountStartDate
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBalance
@@ -25,14 +26,14 @@ import uk.gov.hmrc.helptosavecalculator.models.CalculatorResponse
 import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
 import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
-import kotlin.jvm.JvmOverloads
 
 class Calculator @JvmOverloads constructor(
     private val regularPayment: Int,
     private val currentBalance: Int? = null,
     private val currentFirstPeriodBonus: Double? = null,
     private val currentSecondPeriodBonus: Double? = null,
-    private val accountStartDate: DateTime? = null) : HtSSchemeConfig() {
+    private val accountStartDate: DateTime? = null
+) : HtSSchemeConfig() {
 
     fun run(): CalculatorResponse {
         if (currentBalance == null && accountStartDate != null) {
