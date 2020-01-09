@@ -22,4 +22,10 @@ npm-debug.log
 yarn-debug.log
 yarn-error.log
 
-    
+
+/build/
+/.idea/
+/.gradle/
+credentials.properties
+gradlew
+gradlew.bat
