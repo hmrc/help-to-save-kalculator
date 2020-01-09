@@ -109,6 +109,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
+                implementation("com.soywiz.korlibs.klock:klock-jvm:$klockVersion")
                 implementation(kotlin("stdlib"))
             }
         }

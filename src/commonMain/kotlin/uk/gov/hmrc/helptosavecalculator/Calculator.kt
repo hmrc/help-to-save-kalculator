@@ -15,26 +15,44 @@
  */
 package uk.gov.hmrc.helptosavecalculator
 
+import com.soywiz.klock.DateTime
 import uk.gov.hmrc.helptosavecalculator.config.HtSSchemeConfig
+import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidAccountStartDate
+import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBalance
+import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBonusAmount
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.CalculatorResponse
 import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
+import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
-// @JvmOverloads
-class Calculator constructor(
-    private val regularPayment: Int
-): HtSSchemeConfig() {
+import kotlin.jvm.JvmOverloads
+
+class Calculator @JvmOverloads constructor(
+    private val regularPayment: Int,
+    private val currentBalance: Int? = null,
+    private val currentFirstPeriodBonus: Double? = null,
+    private val currentSecondPeriodBonus: Double? = null,
+    private val accountStartDate: DateTime? = null) : HtSSchemeConfig() {
 
     fun run(): CalculatorResponse {
+        if (currentBalance == null && accountStartDate != null) {
+            throw InvalidCurrentBalance()
+        }
+        if (currentBalance != null && accountStartDate == null) {
+            throw InvalidAccountStartDate()
+        }
+        if (currentBalance != null && (currentFirstPeriodBonus == null || currentSecondPeriodBonus == null)) {
+            throw InvalidCurrentBonusAmount()
+        }
         if (!RegularPaymentValidators.isValidRegularPayments(regularPayment)) {
             throw InvalidRegularPaymentException(regularPayment)
         }
 
         val listOfMonths: MutableList<MonthlyBreakdown> = mutableListOf<MonthlyBreakdown>()
-        var currentMonth: Int = 1
-        var balance: Int = 0
-        var endOfFirstPeriodBonus: Double = 0.0
-        var endOfSecondPeriodBonus:Double = 0.0
+        var currentMonth: Int = accountStartDate?.monthsSince()?.plus(1) ?: 1
+        var balance: Int = currentBalance ?: 0
+        var endOfFirstPeriodBonus: Double = currentFirstPeriodBonus ?: 0.0
+        var endOfSecondPeriodBonus: Double = currentSecondPeriodBonus ?: 0.0
 
         while (currentMonth <= endOfSecondBonusPeriod) {
             balance += regularPayment
@@ -52,9 +70,7 @@ class Calculator constructor(
                     monthNumber = currentMonth,
                     balance = balance,
                     secondYearBonus = endOfFirstPeriodBonus,
-                    fourthYearBonus = endOfSecondPeriodBonus
-                                )
-                            )
+                    fourthYearBonus = endOfSecondPeriodBonus))
             currentMonth++
         }
         return CalculatorResponse(
