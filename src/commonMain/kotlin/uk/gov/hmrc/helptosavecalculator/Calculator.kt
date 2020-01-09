@@ -48,7 +48,7 @@ class Calculator @JvmOverloads constructor(
             throw InvalidRegularPaymentException(regularPayment)
         }
 
-        val listOfMonths: MutableList<MonthlyBreakdown> = mutableListOf<MonthlyBreakdown>()
+        val listOfMonths: MutableList<MonthlyBreakdown> = mutableListOf()
         var currentMonth: Int = accountStartDate?.monthsSince()?.plus(1) ?: 1
         var balance: Int = currentBalance ?: 0
         var endOfFirstPeriodBonus: Double = currentFirstPeriodBonus ?: 0.0

@@ -504,7 +504,7 @@ style:
   SpacingBetweenPackageAndImports:
     active: false
   ThrowsCount:
-    active: true
+    active: false
     max: 2
   TrailingWhitespace:
     active: false

@@ -17,15 +17,15 @@ package uk.gov.hmrc
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.MonthSpan
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import uk.gov.hmrc.helptosavecalculator.Calculator
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidAccountStartDate
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBalance
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBonusAmount
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class CalculatorTest {
     @Test
@@ -76,7 +76,6 @@ class CalculatorTest {
             Calculator(regularPayment = 51).run()
         }
     }
-
 
     @Test
     fun `return month breakdown if they have only saved in the first 2 months`() {
