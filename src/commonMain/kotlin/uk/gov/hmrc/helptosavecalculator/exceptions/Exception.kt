@@ -22,5 +22,5 @@ class InvalidAccountStartDate : Exception("You have provided a current balance b
 
 class InvalidCurrentBalance : Exception("You have provided an account start date but no current balance")
 
-class InvalidCurrentBonusAmount :
-    Exception("You have provided an current balance so you provide current bonus amounts for the first and second period")
+class InvalidCurrentBonusAmount : Exception(
+    "You have provided an current balance so you provide current bonus amounts for the first and second period")
