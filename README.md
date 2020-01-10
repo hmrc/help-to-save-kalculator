@@ -14,7 +14,7 @@ Calculator.run(
                 regularPayment = 50             // Must be between 1 and 50   
 )          
 ```
-###For users with existing accounts
+### For users with existing accounts
 ```kotlin
 Calculator.run(
                 regularPayment = 50,            // Must be between 1 and 50  
