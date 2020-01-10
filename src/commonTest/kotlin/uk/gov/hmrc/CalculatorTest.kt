@@ -17,12 +17,12 @@ package uk.gov.hmrc
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.MonthSpan
-import uk.gov.hmrc.helptosavecalculator.Calculator
-import uk.gov.hmrc.helptosavecalculator.exceptions.*
-import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
+import uk.gov.hmrc.helptosavecalculator.Calculator
+import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
+import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
 
 class CalculatorTest {
     @Test
@@ -118,122 +118,4 @@ class CalculatorTest {
         assertEquals(600.0, calculator.finalFourthYearBonus)
         assertEquals(600.0, calculator.finalTotalBonus)
     }
-
-    @Test
-    fun `Throw Exception when currentBalance supplied but no accounts start date`() {
-        assertFailsWith<InvalidAccountStartDateException> {
-            Calculator.run(regularPayment = 50, currentBalance = 1000)
-        }
-    }
-
-    @Test
-    fun `Throw Exception when currentBalance & accounts start date supplied but no current balance amount for either period`() {
-        assertFailsWith<InvalidCurrentBonusAmountException> {
-            Calculator.run(regularPayment = 50, currentBalance = 1000, accountStartDate = DateTime.now())
-        }
-    }
-
-    @Test
-    fun `Throw Exception when currentBalance & accounts start date supplied but no first balance amount`() {
-        assertFailsWith<InvalidCurrentBonusAmountException> {
-            Calculator.run(
-                regularPayment = 50,
-                currentBalance = 1000,
-                accountStartDate = DateTime.now(),
-                currentSecondPeriodBonus = 0.0)
-        }
-    }
-
-    @Test
-    fun `Throw Exception when currentBalance & accounts start date supplied but no second balance amount`() {
-        assertFailsWith<InvalidCurrentBonusAmountException> {
-            Calculator.run(
-                regularPayment = 50,
-                currentBalance = 1000,
-                accountStartDate = DateTime.now(),
-                currentFirstPeriodBonus = 0.0)
-        }
-    }
-
-    @Test
-    fun `Throw Exception when start date supplied but no account balance`() {
-        assertFailsWith<InvalidCurrentBalanceException> {
-            Calculator.run(regularPayment = 50, accountStartDate = DateTime.now())
-        }
-    }
-
-    @Test
-    fun `Throw Exception when start dates more than 4 years ago (5 years)`() {
-        assertFailsWith<InvalidStartMonthException> {
-            Calculator.run(
-                regularPayment = 50,
-                currentBalance = 0,
-                currentFirstPeriodBonus = 0.0,
-                currentSecondPeriodBonus = 0.0,
-                accountStartDate = DateTime.now().minus(MonthSpan(60)))
-        }
-    }
 }
-
-class ValidateUserInput {
-
-
-    @Test
-    fun `Throw Exception when currentBalance supplied but no accounts start date`() {
-        assertFailsWith<InvalidAccountStartDateException> {
-            Calculator.validateUserInput(regularPayment = 50, currentBalance = 1000)
-        }
-    }
-
-    @Test
-    fun `Throw Exception when currentBalance  & accounts start date supplied but no current balance amount for either period`() {
-        assertFailsWith<InvalidCurrentBonusAmountException> {
-            Calculator.validateUserInput(regularPayment = 50, currentBalance = 1000, accountStartDate = DateTime.now())
-        }
-    }
-
-    @Test
-    fun `Throw Exception when currentBalance & accounts start date supplied but no first balance amount`() {
-        assertFailsWith<InvalidCurrentBonusAmountException> {
-            Calculator.validateUserInput(
-                regularPayment = 50,
-                currentBalance = 1000,
-                accountStartDate = DateTime.now(),
-                currentSecondPeriodBonus = 0.0)
-        }
-    }
-
-    @Test
-    fun `Throw Exception when currentBalance & accounts start date supplied but no second balance amount`() {
-        assertFailsWith<InvalidCurrentBonusAmountException> {
-            Calculator.validateUserInput(
-                regularPayment = 50,
-                currentBalance = 1000,
-                accountStartDate = DateTime.now(),
-                currentFirstPeriodBonus = 0.0)
-        }
-    }
-
-    @Test
-    fun `Throw Exception when start date supplied but no account balance`() {
-        assertFailsWith<InvalidCurrentBalanceException> {
-            Calculator.validateUserInput(regularPayment = 50, accountStartDate = DateTime.now())
-        }
-    }
-
-    @Test
-    fun `Throw Exception when start dates more than 4 years ago (5 years)`() {
-        assertFailsWith<InvalidStartMonthException> {
-            Calculator.validateUserInput(
-                regularPayment = 50,
-                currentBalance = 0,
-                currentFirstPeriodBonus = 0.0,
-                currentSecondPeriodBonus = 0.0,
-                accountStartDate = DateTime.now().minus(MonthSpan(60)),
-                currentMonth = 60)
-        }
-    }
-
-
-}
-
