@@ -75,7 +75,7 @@ class CalculatorTest {
     }
 
     @Test
-    fun `return month breakdown if they have only saved in the first 2 months`() {
+    fun `Month breakdown if they have only saved in the first 2 months`() {
         val calculator = Calculator.run(
             regularPayment = 50,
             currentBalance = 100,
@@ -90,7 +90,7 @@ class CalculatorTest {
     }
 
     @Test
-    fun `return month breakdown if they have not saved in the first 2 months`() {
+    fun `Month breakdown if they have not saved in the first 2 months`() {
         val calculator = Calculator.run(
             regularPayment = 50,
             currentBalance = 0,
@@ -105,7 +105,7 @@ class CalculatorTest {
     }
 
     @Test
-    fun `return month breakdown if they have not saved in the first 24 months`() {
+    fun `Month breakdown if they have not saved in the first 24 months`() {
         val calculator = Calculator.run(
             regularPayment = 50,
             currentBalance = 0,
@@ -127,14 +127,14 @@ class CalculatorTest {
     }
 
     @Test
-    fun `Throw Exception when currentBalance supplied & accounts start date but no current balance amount for either period`() {
+    fun `Throw Exception when currentBalance & accounts start date supplied but no current balance amount for either period`() {
         assertFailsWith<InvalidCurrentBonusAmountException> {
             Calculator.run(regularPayment = 50, currentBalance = 1000, accountStartDate = DateTime.now())
         }
     }
 
     @Test
-    fun `Throw Exception when currentBalance supplied & accounts start date but no first balance amount`() {
+    fun `Throw Exception when currentBalance & accounts start date supplied but no first balance amount`() {
         assertFailsWith<InvalidCurrentBonusAmountException> {
             Calculator.run(
                 regularPayment = 50,
@@ -145,7 +145,7 @@ class CalculatorTest {
     }
 
     @Test
-    fun `Throw Exception when currentBalance supplied & accounts start date but no second balance amount`() {
+    fun `Throw Exception when currentBalance & accounts start date supplied but no second balance amount`() {
         assertFailsWith<InvalidCurrentBonusAmountException> {
             Calculator.run(
                 regularPayment = 50,
@@ -186,14 +186,14 @@ class ValidateUserInput {
     }
 
     @Test
-    fun `Throw Exception when currentBalance supplied & accounts start date but no current balance amount for either period`() {
+    fun `Throw Exception when currentBalance  & accounts start date supplied but no current balance amount for either period`() {
         assertFailsWith<InvalidCurrentBonusAmountException> {
             Calculator.validateUserInput(regularPayment = 50, currentBalance = 1000, accountStartDate = DateTime.now())
         }
     }
 
     @Test
-    fun `Throw Exception when currentBalance supplied & accounts start date but no first balance amount`() {
+    fun `Throw Exception when currentBalance & accounts start date supplied but no first balance amount`() {
         assertFailsWith<InvalidCurrentBonusAmountException> {
             Calculator.validateUserInput(
                 regularPayment = 50,
@@ -204,7 +204,7 @@ class ValidateUserInput {
     }
 
     @Test
-    fun `Throw Exception when currentBalance supplied & accounts start date but no second balance amount`() {
+    fun `Throw Exception when currentBalance & accounts start date supplied but no second balance amount`() {
         assertFailsWith<InvalidCurrentBonusAmountException> {
             Calculator.validateUserInput(
                 regularPayment = 50,
