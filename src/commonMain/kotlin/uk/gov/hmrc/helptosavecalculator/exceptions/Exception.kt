@@ -18,9 +18,11 @@ package uk.gov.hmrc.helptosavecalculator.exceptions
 class InvalidRegularPaymentException(regularPayment: Int) :
     Exception("Regular payment must be between 1 and 50. You provided $regularPayment")
 
-class InvalidAccountStartDate : Exception("You have provided a current balance but no account start date")
+class InvalidAccountStartDateException : Exception("You have provided a current balance but no account start date")
 
-class InvalidCurrentBalance : Exception("You have provided an account start date but no current balance")
+class InvalidCurrentBalanceException : Exception("You have provided an account start date but no current balance")
 
-class InvalidCurrentBonusAmount : Exception(
+class InvalidStartMonthException : Exception("They started their account more than 4 years ago")
+
+class InvalidCurrentBonusAmountException : Exception(
     "You have provided an current balance so you provide current bonus amounts for the first and second period")

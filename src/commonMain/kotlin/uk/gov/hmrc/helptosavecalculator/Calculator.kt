@@ -16,44 +16,36 @@
 package uk.gov.hmrc.helptosavecalculator
 
 import com.soywiz.klock.DateTime
-import kotlin.jvm.JvmOverloads
 import uk.gov.hmrc.helptosavecalculator.config.HtSSchemeConfig
-import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidAccountStartDate
-import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBalance
-import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidCurrentBonusAmount
-import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
+import uk.gov.hmrc.helptosavecalculator.exceptions.*
 import uk.gov.hmrc.helptosavecalculator.models.CalculatorResponse
 import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
 import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
+import kotlin.jvm.JvmOverloads
 
-class Calculator @JvmOverloads constructor(
-    private val regularPayment: Int,
-    private val currentBalance: Int? = null,
-    private val currentFirstPeriodBonus: Double? = null,
-    private val currentSecondPeriodBonus: Double? = null,
-    private val accountStartDate: DateTime? = null
-) : HtSSchemeConfig() {
+object Calculator : HtSSchemeConfig() {
 
-    fun run(): CalculatorResponse {
-        if (currentBalance == null && accountStartDate != null) {
-            throw InvalidCurrentBalance()
-        }
-        if (currentBalance != null && accountStartDate == null) {
-            throw InvalidAccountStartDate()
-        }
-        if (currentBalance != null && (currentFirstPeriodBonus == null || currentSecondPeriodBonus == null)) {
-            throw InvalidCurrentBonusAmount()
-        }
-        if (!RegularPaymentValidators.isValidRegularPayments(regularPayment)) {
-            throw InvalidRegularPaymentException(regularPayment)
-        }
-
+    @JvmOverloads
+    fun run(
+        regularPayment: Int,
+        currentBalance: Int? = null,
+        currentFirstPeriodBonus: Double? = null,
+        currentSecondPeriodBonus: Double? = null,
+        accountStartDate: DateTime? = null): CalculatorResponse {
         val listOfMonths: MutableList<MonthlyBreakdown> = mutableListOf()
         var currentMonth: Int = accountStartDate?.monthsSince()?.plus(1) ?: 1
         var balance: Int = currentBalance ?: 0
         var endOfFirstPeriodBonus: Double = currentFirstPeriodBonus ?: 0.0
         var endOfSecondPeriodBonus: Double = currentSecondPeriodBonus ?: 0.0
+
+        validateUserInput(
+            regularPayment,
+            currentBalance,
+            currentFirstPeriodBonus,
+            currentSecondPeriodBonus,
+            accountStartDate,
+            currentMonth)
 
         while (currentMonth <= endOfSecondBonusPeriod) {
             balance += regularPayment
@@ -80,5 +72,30 @@ class Calculator @JvmOverloads constructor(
             finalSecondYearBonus = endOfFirstPeriodBonus,
             finalFourthYearBonus = endOfSecondPeriodBonus,
             monthlyBreakdown = listOfMonths)
+    }
+
+
+    internal fun validateUserInput(
+        regularPayment: Int,
+        currentBalance: Int? = null,
+        currentFirstPeriodBonus: Double? = null,
+        currentSecondPeriodBonus: Double? = null,
+        accountStartDate: DateTime? = null,
+        currentMonth: Int? = null) {
+        if (currentBalance == null && accountStartDate != null) {
+            throw InvalidCurrentBalanceException()
+        }
+        if (currentBalance != null && accountStartDate == null) {
+            throw InvalidAccountStartDateException()
+        }
+        if (currentBalance != null && (currentFirstPeriodBonus == null || currentSecondPeriodBonus == null)) {
+            throw InvalidCurrentBonusAmountException()
+        }
+        if (!RegularPaymentValidators.isValidRegularPayments(regularPayment)) {
+            throw InvalidRegularPaymentException(regularPayment)
+        }
+        if (currentMonth != null && currentMonth > endOfSecondBonusPeriod) {
+            throw InvalidStartMonthException()
+        }
     }
 }
