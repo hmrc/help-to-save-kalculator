@@ -25,4 +25,4 @@ class InvalidCurrentBalanceException : Exception("You have provided an account s
 class InvalidStartMonthException : Exception("They started their account more than 4 years ago")
 
 class InvalidCurrentBonusAmountException : Exception(
-    "You have provided an current balance so you provide current bonus amounts for the first and second period")
+    "You have provided a current balance so you need to provide current bonus amounts for the first and second period")
