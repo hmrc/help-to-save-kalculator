@@ -109,6 +109,7 @@ kotlin {
 
         val jvmMain by getting {
             dependencies {
+                implementation("com.soywiz.korlibs.klock:klock-jvm:$klockVersion")
                 implementation(kotlin("stdlib"))
             }
         }
@@ -240,7 +241,7 @@ tasks.jacocoTestCoverageVerification {
     violationRules {
         rule {
             limit {
-                minimum = "0.90".toBigDecimal()
+                minimum = "0.87".toBigDecimal()
             }
         }
     }

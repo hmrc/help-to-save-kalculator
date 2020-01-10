@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.gov.hmrc.helptosavecalculator.config
+package uk.gov.hmrc.helptosavecalculator.utils
 
-open class HtSSchemeConfig {
-    val endOfSecondBonusPeriod: Int = 48
-    val startOfSecondBonusPeriod: Int = 25
-    val startOfFirstBonusPeriod: Int = 1
-    val endOfFirstBonusPeriod: Int = 24
+import com.soywiz.klock.DateTime
+import com.soywiz.klock.DateTimeRange
+
+internal fun DateTime.monthsSince(now: DateTime = DateTime.now()): Int {
+    return DateTimeRange(this.startOfMonth, now.startOfMonth).span.totalMonths
 }
