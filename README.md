@@ -11,13 +11,13 @@
 ### For new users
 ```kotlin
 Calculator.run(
-                regularPayment = 50             //(must be between 1 and 50)   
+                regularPayment = 50             // Must be between 1 and 50   
 )          
 ```
 ###For users with existing accounts
 ```kotlin
 Calculator.run(
-                regularPayment = 50,            // Required (must be between 1 and 50)   
+                regularPayment = 50,            // Must be between 1 and 50  
                 currentBalance = 100,             
                 currentFirstPeriodBonus = 50.0, 
                 currentSecondPeriodBonus = 0.0,  
