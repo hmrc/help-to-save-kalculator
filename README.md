@@ -1,11 +1,12 @@
 
 # help-to-save-kalculator
 
-##### code coverages
+## Status
+[![Build Status](https://app.bitrise.io/app/6a0a30b884ce6131/status.svg?token=q0pKDUFK3Qfa6sXfy66vog&branch=master)](https://app.bitrise.io/app/6a0a30b884ce6131)
 ![LINE](https://img.shields.io/badge/line--coverage-98%25-brightgreen.svg)
 ![BRANCH](https://img.shields.io/badge/branch--coverage-86%25-brightgreen.svg)
 ![COMPLEXITY](https://img.shields.io/badge/complexity-1.48-brightgreen.svg)
-
+[ ![Download](https://api.bintray.com/packages/hmrc/mobile-releases/tax-kalculator/images/download.svg) ](https://bintray.com/hmrc/mobile-releases/help-to-save-kalculator/_latestVersion)
 ## Calculate help to save bonus
 
 ### For new users
