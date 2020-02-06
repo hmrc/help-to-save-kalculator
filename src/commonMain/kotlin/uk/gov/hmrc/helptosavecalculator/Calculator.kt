@@ -46,7 +46,7 @@ object Calculator : HtSSchemeConfig() {
         currentPeriod1Bonus: Double? = null,
         currentPeriod2Bonus: Double? = null,
         accountStartDate: DateTime? = null
-                         ): CalculatorResponse {
+    ): CalculatorResponse {
         val listOfMonths: MutableList<MonthlyBreakdown> = mutableListOf()
         var currentMonth: Int = accountStartDate?.monthsSince()?.plus(1) ?: 1
         var endOfSchemeSavings: Double = currentBalance ?: 0.0
