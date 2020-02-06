@@ -22,28 +22,41 @@ class CalculatorResponseTest {
 
     @Test
     fun `Check getters on Calculator Response`() {
-        val calculatorResponse = CalculatorResponse(50, listOf<MonthlyBreakdown>(), 2400, 600.0, 600.0)
+        val calculatorResponse = CalculatorResponse(
+            monthlyPayments = 50.0,
+            monthlyBreakdown = listOf<MonthlyBreakdown>(),
+            endOfSchemeSavings = 2400.0,
+            endOfPeriod1Bonus = 600.0,
+            endOfPeriod1Savings = 1200.0,
+            endOfPeriod2Bonus = 600.0,
+            endOfPeriod2Savings = 1200.0)
 
-        assertEquals(calculatorResponse.finalTotalBonus, 1200.0)
-        assertEquals(calculatorResponse.monthlyPayments, 50)
+        assertEquals(calculatorResponse.endOfSchemeBonus, 1200.0)
+        assertEquals(calculatorResponse.monthlyPayments, 50.0)
         assertEquals(calculatorResponse.monthlyBreakdown, listOf<MonthlyBreakdown>())
-        assertEquals(calculatorResponse.finalBalance, 2400)
-        assertEquals(calculatorResponse.finalSecondYearBonus, 600.0)
-        assertEquals(calculatorResponse.finalFourthYearBonus, 600.0)
-        assertEquals(calculatorResponse.finalTotalBonus, 1200.0)
+        assertEquals(calculatorResponse.endOfSchemeSavings, 2400.0)
+        assertEquals(calculatorResponse.endOfSchemeBonus, 1200.0)
+        assertEquals(calculatorResponse.endOfSchemeTotal, 3600.0)
+
+        assertEquals(calculatorResponse.endOfPeriod1Bonus, 600.0)
+        assertEquals(calculatorResponse.endOfPeriod1Savings, 1200.0)
+        assertEquals(calculatorResponse.endOfPeriod1Total, 1800.0)
+        assertEquals(calculatorResponse.endOfPeriod2Bonus, 600.0)
+        assertEquals(calculatorResponse.endOfPeriod2Savings, 1200.0)
+        assertEquals(calculatorResponse.endOfPeriod2Total, 1800.0)
     }
 
     @Test
     fun `Check getters on MonthlyBreakdown`() {
         val monthlyBreakdown = MonthlyBreakdown(
-            monthNumber = 1, balance = 50, secondYearBonus = 25.0, fourthYearBonus = 0.0)
+            monthNumber = 1, savingsToDate = 50.0, period1Bonus = 25.0, period2Bonus = 0.0)
 
         // val balance: Int, val secondYearBonus: Double, val fourthYearBonus: Double
 
         assertEquals(monthlyBreakdown.monthNumber, 1)
-        assertEquals(monthlyBreakdown.balance, 50)
-        assertEquals(monthlyBreakdown.secondYearBonus, 25.0)
-        assertEquals(monthlyBreakdown.fourthYearBonus, 0.0)
-        assertEquals(monthlyBreakdown.totalBonusToDate, 25.0)
+        assertEquals(monthlyBreakdown.savingsToDate, 50.0)
+        assertEquals(monthlyBreakdown.period1Bonus, 25.0)
+        assertEquals(monthlyBreakdown.period2Bonus, 0.0)
+        assertEquals(monthlyBreakdown.bonusToDate, 25.0)
     }
 }

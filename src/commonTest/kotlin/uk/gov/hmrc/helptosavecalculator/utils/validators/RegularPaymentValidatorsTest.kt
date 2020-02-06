@@ -24,21 +24,21 @@ class RegularPaymentValidatorsTests {
 
     @Test
     fun `Validate RegularPayments below minimum`() {
-        assertFalse(RegularPaymentValidators.isAboveMinimumRegularPayments(0))
+        assertFalse(RegularPaymentValidators.isAboveMinimumRegularPayments(0.0))
     }
 
     @Test
     fun `Validate RegularPayments above zero`() {
-        assertTrue(RegularPaymentValidators.isAboveMinimumRegularPayments(1))
+        assertTrue(RegularPaymentValidators.isAboveMinimumRegularPayments(1.0))
     }
 
     @Test
     fun `Validate RegularPayments below max`() {
-        assertTrue(RegularPaymentValidators.isBelowMaximumRegularPayments(50))
+        assertTrue(RegularPaymentValidators.isBelowMaximumRegularPayments(50.0))
     }
 
     @Test
     fun `Validate RegularPayments above max`() {
-        assertFalse(RegularPaymentValidators.isBelowMaximumRegularPayments(51))
+        assertFalse(RegularPaymentValidators.isBelowMaximumRegularPayments(51.0))
     }
 }

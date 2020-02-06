@@ -17,10 +17,11 @@ package uk.gov.hmrc.helptosavecalculator.validation
 
 object RegularPaymentValidators {
 
-    fun isValidRegularPayments(payment: Int) = isBelowMaximumRegularPayments(payment) && isAboveMinimumRegularPayments(
-        payment)
+    fun isValidRegularPayments(payment: Double) =
+        isBelowMaximumRegularPayments(payment) && isAboveMinimumRegularPayments(
+            payment)
 
-    fun isAboveMinimumRegularPayments(payment: Int) = payment >= 1
+    fun isAboveMinimumRegularPayments(payment: Double) = payment >= 1.0
 
-    fun isBelowMaximumRegularPayments(payment: Int) = payment <= 50
+    fun isBelowMaximumRegularPayments(payment: Double) = payment <= 50.0
 }
