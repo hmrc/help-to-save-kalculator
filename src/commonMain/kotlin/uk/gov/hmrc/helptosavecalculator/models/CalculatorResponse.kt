@@ -16,20 +16,25 @@
 package uk.gov.hmrc.helptosavecalculator.models
 
 data class CalculatorResponse(
-    val monthlyPayments: Int,
+    val monthlyPayments: Double,
     val monthlyBreakdown: List<MonthlyBreakdown>,
-    val finalBalance: Int,
-    val finalSecondYearBonus: Double,
-    val finalFourthYearBonus: Double
+    val endOfSchemeSavings: Double,
+    val endOfPeriod1Bonus: Double,
+    val endOfPeriod1Savings: Double,
+    val endOfPeriod2Bonus: Double,
+    val endOfPeriod2Savings: Double
 ) {
-    val finalTotalBonus: Double = finalSecondYearBonus + finalFourthYearBonus
-}
+        val endOfSchemeBonus: Double = endOfPeriod1Bonus + endOfPeriod2Bonus
+        val endOfSchemeTotal: Double = endOfSchemeSavings + endOfSchemeBonus
+        val endOfPeriod1Total: Double = endOfPeriod1Savings + endOfPeriod1Bonus
+        val endOfPeriod2Total: Double = endOfPeriod2Savings + endOfPeriod2Bonus
+    }
 
 data class MonthlyBreakdown(
     val monthNumber: Int,
-    val balance: Int,
-    val secondYearBonus: Double,
-    val fourthYearBonus: Double
+    val savingsToDate: Double,
+    val period1Bonus: Double,
+    val period2Bonus: Double
 ) {
-    val totalBonusToDate: Double = secondYearBonus + fourthYearBonus
+    val bonusToDate: Double = period1Bonus + period2Bonus
 }

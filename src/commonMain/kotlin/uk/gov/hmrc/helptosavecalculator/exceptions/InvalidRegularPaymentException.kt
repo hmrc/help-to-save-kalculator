@@ -15,5 +15,5 @@
  */
 package uk.gov.hmrc.helptosavecalculator.exceptions
 
-class InvalidRegularPaymentException(regularPayment: Int) :
+class InvalidRegularPaymentException(regularPayment: Double) :
     Exception("Regular payment must be between 1 and 50. You provided $regularPayment")
