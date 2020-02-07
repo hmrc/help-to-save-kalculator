@@ -6,7 +6,7 @@
 ![LINE](https://img.shields.io/badge/line--coverage-98%25-brightgreen.svg)
 ![BRANCH](https://img.shields.io/badge/branch--coverage-82%25-brightgreen.svg)
 ![COMPLEXITY](https://img.shields.io/badge/complexity-1.64-brightgreen.svg)
-[ ![Download](https://api.bintray.com/packages/hmrc/mobile-releases/tax-kalculator/images/download.svg) ](https://bintray.com/hmrc/mobile-releases/help-to-save-kalculator/_latestVersion)
+[ ![Download](https://api.bintray.com/packages/hmrc/mobile-releases/help-to-save-kalculator/images/download.svg) ](https://bintray.com/hmrc/mobile-releases/help-to-save-kalculator/_latestVersion)
 ## Calculate help to save bonus
 
 ### For new users
@@ -104,7 +104,7 @@ Add the dependency in the `build.gradle` of the module:
 
 ```groovy
 dependencies {
-    implementation "uk.gov.hmrc:tax-kalculator-jvm:x.y.z"
+    implementation "uk.gov.hmrc:help-to-save-kalculator-jvm:x.y.z"
 }
 ```
 
