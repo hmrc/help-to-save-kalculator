@@ -71,7 +71,7 @@ Each release tag includes a Carthage binary dependency specification. To use the
 * Point to the latest release in your JSON file.
 ```json
     {
-      "0.3.7": "https://github.com/hmrc/tax-kalculator/releases/download/0.3.7/HelpToSaveKalculator.framework.zip"
+      "0.3.7": "https://github.com/hmrc/help-to-save-kalculator/releases/download/0.3.7/HelpToSaveKalculator.framework.zip"
     }
 ```
 * List the dependency in your Cartfile
