@@ -27,7 +27,7 @@ version = System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
 
 plugins {
     `maven-publish`
-    kotlin("multiplatform").version("1.3.61")
+    kotlin("multiplatform").version("1.3.70")
     jacoco
     java
     id("com.github.dawnwords.jacoco.badge").version("0.1.0")
@@ -93,7 +93,7 @@ kotlin {
     }
 
     sourceSets {
-        val klockVersion = "1.8.0"
+        val klockVersion = "1.9.0"
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
@@ -143,21 +143,6 @@ kotlin {
         }
     }
 
-    tasks.register("iosTest") {
-        group = project.name
-        val device = project.findProperty("iosDevice")?.toString() ?: "iPhone 8"
-        this.dependsOn(iosX64.binaries.getTest("DEBUG").linkTaskName)
-        group = JavaBasePlugin.VERIFICATION_GROUP
-        description = "Runs tests for target ios on an iOS simulator"
-
-        doLast {
-            val binary = iosArm64.binaries.getTest("DEBUG").outputFile
-            exec {
-                commandLine(listOf("xcrun", "simctl", "spawn", device, binary.absolutePath))
-            }
-        }
-    }
-
     tasks.register<org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask>("fatFramework") {
         group = project.name
         destinationDir = File(buildDir, "xcode-frameworks")
@@ -182,6 +167,16 @@ kotlin {
             }
                     .writeText("#!/bin/bash\nexport 'JAVA_HOME=${System.getProperty("java.home")}'\ncd '${rootProject.rootDir}'\n./gradlew \$@\n")
         }
+    }
+}
+
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
+    testLogging {
+        showExceptions = true
+        showStandardStreams = true
+        events = setOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED)
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
     }
 }
 
