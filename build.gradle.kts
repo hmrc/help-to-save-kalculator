@@ -145,6 +145,7 @@ kotlin {
 
     tasks.register<org.jetbrains.kotlin.gradle.tasks.FatFrameworkTask>("fatFramework") {
         group = project.name
+        baseName = frameworkName
         destinationDir = File(buildDir, "xcode-frameworks")
 
         val ios32Framework = iosArm32.binaries.getFramework("RELEASE")
