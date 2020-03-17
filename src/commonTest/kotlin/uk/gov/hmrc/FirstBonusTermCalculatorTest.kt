@@ -18,6 +18,7 @@ package uk.gov.hmrc
 import uk.gov.hmrc.helptosavecalculator.Calculator
 import uk.gov.hmrc.helptosavecalculator.FirstBonusTermCalculator.runFirstBonusCalculator
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
+import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
 import kotlin.test.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFailsWith
@@ -39,13 +40,14 @@ class FirstBonusTermCalculatorTest {
 
     @Test
     fun `A new account with no payment AND 1 pound regular payment`() {
-        val calculator = runFirstBonusCalculator(1.0,
+        val input = FirstBonusInput(1.0,
                 0.0,
                 0.0,
                 "2020-03",
                 "2022-02-28",
                 "2024-02-28",
                 0.0)
+        val calculator = runFirstBonusCalculator(input)
 
         assertEquals(72.00, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(48.00, calculator.totalProjectedSavings)
@@ -58,13 +60,14 @@ class FirstBonusTermCalculatorTest {
 
     @Test
     fun `A new account with no payment AND 25 pound regular payment`() {
-        val calculator = runFirstBonusCalculator(25.0,
+        val input = FirstBonusInput(25.0,
                 0.0,
                 0.0,
                 "2020-03",
                 "2022-02-28",
                 "2024-02-28",
                 0.0)
+        val calculator = runFirstBonusCalculator(input)
 
         assertEquals(1800.00, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(1200.00, calculator.totalProjectedSavings)
@@ -77,13 +80,14 @@ class FirstBonusTermCalculatorTest {
 
     @Test
     fun `A new account with no payment AND 50 pound regular payment`() {
-        val calculator = runFirstBonusCalculator(50.0,
+        val input = FirstBonusInput(50.0,
                 0.0,
                 0.0,
                 "2020-03",
                 "2022-02-28",
                 "2024-02-28",
                 0.0)
+        val calculator = runFirstBonusCalculator(input)
 
         assertEquals(3600.00, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(2400.00, calculator.totalProjectedSavings)
@@ -96,13 +100,14 @@ class FirstBonusTermCalculatorTest {
 
     @Test
     fun `A new account paid in 50 first month, withdrawn 256 AND 25 pounds regular payment`() {
-        val calculator = runFirstBonusCalculator(25.0,
+        val input = FirstBonusInput(25.0,
                 25.0,
                 50.0,
                 "2020-03",
                 "2022-02-28",
                 "2024-02-28",
                 50.0)
+        val calculator = runFirstBonusCalculator(input)
 
         assertEquals(1800.00, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(1200.00, calculator.totalProjectedSavings)

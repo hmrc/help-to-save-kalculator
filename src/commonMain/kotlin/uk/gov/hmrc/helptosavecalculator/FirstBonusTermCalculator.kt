@@ -15,132 +15,38 @@
  */
 package uk.gov.hmrc.helptosavecalculator
 
-import com.soywiz.klock.DateFormat
-import com.soywiz.klock.DateTime
-import com.soywiz.klock.parse
-import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusCalculatorResponse
-import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
-import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
+import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
 
-object FirstBonusTermCalculator {
+object FirstBonusTermCalculator : FirstBonusTermCalculation() {
 
-    fun runFirstBonusCalculator(
-            regularPayment: Double,
-            currentBalance: Double,
-            paidInThisMonth: Double,
-            accountStartDate: String,
-            firstTermEndDate: String,
-            secondTermEndDate: String,
-            BalanceMustBeMoreThanForBonus: Double
-    ): FirstBonusCalculatorResponse {
-        return calculateFirstBonus(regularPayment, currentBalance, paidInThisMonth, accountStartDate, firstTermEndDate, secondTermEndDate, BalanceMustBeMoreThanForBonus)
+    fun runFirstBonusCalculator(input: FirstBonusInput): FirstBonusCalculatorResponse {
+        return calculateFirstBonus(input)
     }
 
-    private fun calculateFirstBonus(
-            regularPayment: Double,
-            currentBalance: Double,
-            paidInThisMonth: Double,
-            accountStartDate: String,
-            firstTermEndDate: String,
-            secondTermEndDate: String,
-            BalanceMustBeMoreThanForBonus: Double
-    ): FirstBonusCalculatorResponse {
-        validateUserInput(regularPayment)
+    private fun calculateFirstBonus(input: FirstBonusInput): FirstBonusCalculatorResponse {
+        validateUserInput(input.regularPayment)
 
-        val accountStartDateInDateTime = convertYearMonthToDateTime(accountStartDate)
-        val accountFirstTermEndDateInDateTime = convertYearMonthDayToDateTime(firstTermEndDate)
-        val accountSecondTermEndDateInDateTime = convertYearMonthDayToDateTime(secondTermEndDate)
-        val monthLeftInScheme = calculateMonthsLeftInScheme(accountStartDateInDateTime, accountSecondTermEndDateInDateTime)
-        val monthLetInFirstTerm = calculateMonthsLeftInFirstTerm(accountStartDateInDateTime, accountFirstTermEndDateInDateTime)
-        val additionalSavingsThisMonth = calculateAdditionalSavingsThisMonth(regularPayment, paidInThisMonth)
-        val totalProjectedSavings = calculateTotalProjectedSavings(currentBalance, additionalSavingsThisMonth, regularPayment, monthLeftInScheme)
-        val projectedSavingsFirstBonusPeriod = calculateProjectedSavingsFirstBonusPeriod(currentBalance, additionalSavingsThisMonth, regularPayment, monthLetInFirstTerm)
-        val highestBalanceFirstBonusPeriod = calculateHighestBalanceFirstBonusPeriod(BalanceMustBeMoreThanForBonus, projectedSavingsFirstBonusPeriod)
+        val monthLeftInScheme = calculateMonthsLeftInScheme(input)
+        val monthLetInFirstTerm = calculateMonthsLeftInFirstTerm(input)
+        val additionalSavingsThisMonth = calculateAdditionalSavingsThisMonth(input)
+        val totalProjectedSavings = calculateTotalProjectedSavings(input, additionalSavingsThisMonth, monthLeftInScheme)
+        val projectedSavingsFirstBonusPeriod = calculateProjectedSavingsFirstBonusPeriod(input, additionalSavingsThisMonth, monthLetInFirstTerm)
+        val highestBalanceFirstBonusPeriod = calculateHighestBalanceFirstBonusPeriod(input, projectedSavingsFirstBonusPeriod)
         val projectedFirstBonus = calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod)
-        val projectedAdditionalSavingsFinalBonusPeriod = calculateProjectedAdditionalSavingsFinalBonusPeriod(regularPayment)
+        val projectedAdditionalSavingsFinalBonusPeriod = calculateProjectedAdditionalSavingsFinalBonusPeriod(input)
         val projectedFinalBonus = calculateProjectedFinalBonus(totalProjectedSavings, highestBalanceFirstBonusPeriod)
         val totalProjectedBonuses = calculateTotalProjectedBonuses(projectedFirstBonus, projectedFinalBonus)
         val totalProjectedSavingsIncludingBonuses = calculateTotalProjectedSavingsIncludeBonuses(totalProjectedSavings, totalProjectedBonuses)
 
         return FirstBonusCalculatorResponse(
-                totalProjectedSavingsIncludingBonuses = totalProjectedSavingsIncludingBonuses,
-                totalProjectedSavings = totalProjectedSavings,
-                totalProjectedBonuses = totalProjectedBonuses,
-                projectedSavingsFirstBonusPeriod = projectedSavingsFirstBonusPeriod,
-                projectedFirstBonus = projectedFirstBonus,
-                projectedAdditionalSavingsFinalBonusPeriod = projectedAdditionalSavingsFinalBonusPeriod,
-                projectedFinalBonus = projectedFinalBonus
+                totalProjectedSavingsIncludingBonuses,
+                totalProjectedSavings,
+                totalProjectedBonuses,
+                projectedSavingsFirstBonusPeriod,
+                projectedFirstBonus,
+                projectedAdditionalSavingsFinalBonusPeriod,
+                projectedFinalBonus
         )
-    }
-
-    private fun calculateTotalProjectedSavingsIncludeBonuses(totalProjectedSavings: Double, totalProjectedBonuses: Double): Double {
-        return totalProjectedSavings + totalProjectedBonuses
-    }
-
-    private fun calculateAdditionalSavingsThisMonth(regularPayment: Double, paidInThisMonth: Double): Double {
-        return if (regularPayment > paidInThisMonth) {
-            regularPayment - paidInThisMonth
-        } else {
-            0.0
-        }
-    }
-
-    private fun calculateTotalProjectedSavings(currentBalance: Double, additionalSavingsThisMonth: Double, regularPayment: Double, monthsLeftInScheme: Int): Double {
-        return currentBalance + additionalSavingsThisMonth + (regularPayment * monthsLeftInScheme)
-    }
-
-    private fun calculateTotalProjectedBonuses(projectedFirstBonus: Double, projectedFinalBonus: Double): Double {
-        return projectedFirstBonus + projectedFinalBonus
-    }
-
-    private fun calculateProjectedSavingsFirstBonusPeriod(currentBalance: Double, additionalSavingsThisMonth: Double, regularPayment: Double, monthsLeftInFirstTerm: Int): Double {
-        return currentBalance + additionalSavingsThisMonth + (regularPayment * monthsLeftInFirstTerm)
-    }
-
-    private fun calculateHighestBalanceFirstBonusPeriod(balanceMustBeMoreThanValue: Double, projectedSavingsFirstBonusPeriod: Double): Double {
-        return balanceMustBeMoreThanValue.takeIf {
-            it > projectedSavingsFirstBonusPeriod
-        } ?: projectedSavingsFirstBonusPeriod
-    }
-
-    private fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double): Double {
-        return highestBalanceFirstBonusPeriod / 2
-    }
-
-    private fun calculateProjectedAdditionalSavingsFinalBonusPeriod(regularPayment: Double): Double {
-        return regularPayment * 24
-    }
-
-    private fun calculateProjectedFinalBonus(highestBalanceFinalBonusPeriod: Double, highestBalanceFirstBonusPeriod: Double): Double {
-        return if (highestBalanceFinalBonusPeriod > highestBalanceFirstBonusPeriod) {
-            (highestBalanceFinalBonusPeriod - highestBalanceFirstBonusPeriod) / 2
-        } else {
-            0.0
-        }
-    }
-
-    private fun calculateMonthsLeftInScheme(accountStartDate: DateTime, secondTermEndDate: DateTime): Int {
-        return accountStartDate.monthsSince(secondTermEndDate)
-    }
-
-    private fun calculateMonthsLeftInFirstTerm(accountStartDate: DateTime, firstTermEndDate: DateTime): Int {
-        return accountStartDate.monthsSince(firstTermEndDate)
-    }
-
-    private fun convertYearMonthToDateTime(yearMonthFormat: String): DateTime {
-        val dateFormat = DateFormat("yyyy-MM-dd")
-        return dateFormat.parse("$yearMonthFormat-01").local
-    }
-
-    private fun convertYearMonthDayToDateTime(yearMonthDayFormat: String): DateTime {
-        val dateFormat = DateFormat("yyyy-MM-dd")
-        return dateFormat.parse(yearMonthDayFormat).local
-    }
-
-    private fun validateUserInput(regularPayment: Double) {
-        if (!RegularPaymentValidators.isValidRegularPayments(regularPayment)) {
-            throw InvalidRegularPaymentException(regularPayment)
-        }
     }
 }
