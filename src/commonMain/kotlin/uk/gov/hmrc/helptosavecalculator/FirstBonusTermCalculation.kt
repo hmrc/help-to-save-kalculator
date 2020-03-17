@@ -15,16 +15,17 @@
  */
 package uk.gov.hmrc.helptosavecalculator
 
-import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
 import uk.gov.hmrc.helptosavecalculator.utils.convertYearMonthDayToDateTime
 import uk.gov.hmrc.helptosavecalculator.utils.convertYearMonthToDateTime
 import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
-import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
 
 open class FirstBonusTermCalculation {
 
-    protected fun calculateTotalProjectedSavingsIncludeBonuses(totalProjectedSavings: Double, totalProjectedBonuses: Double): Double {
+    protected fun calculateTotalProjectedSavingsIncludeBonuses(
+        totalProjectedSavings: Double,
+        totalProjectedBonuses: Double
+    ): Double {
         return totalProjectedSavings + totalProjectedBonuses
     }
 
@@ -36,19 +37,33 @@ open class FirstBonusTermCalculation {
         }
     }
 
-    protected fun calculateTotalProjectedSavings(input: FirstBonusInput, additionalSavingsThisMonth: Double, monthsLeftInScheme: Int): Double {
+    protected fun calculateTotalProjectedSavings(
+        input: FirstBonusInput,
+        additionalSavingsThisMonth: Double,
+        monthsLeftInScheme: Int
+    ): Double {
         return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInScheme)
     }
 
-    protected fun calculateTotalProjectedBonuses(projectedFirstBonus: Double, projectedFinalBonus: Double): Double {
+    protected fun calculateTotalProjectedBonuses(
+        projectedFirstBonus: Double,
+        projectedFinalBonus: Double
+    ): Double {
         return projectedFirstBonus + projectedFinalBonus
     }
 
-    protected fun calculateProjectedSavingsFirstBonusPeriod(input: FirstBonusInput, additionalSavingsThisMonth: Double, monthsLeftInFirstTerm: Int): Double {
+    protected fun calculateProjectedSavingsFirstBonusPeriod(
+        input: FirstBonusInput,
+        additionalSavingsThisMonth: Double,
+        monthsLeftInFirstTerm: Int
+    ): Double {
         return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInFirstTerm)
     }
 
-    protected fun calculateHighestBalanceFirstBonusPeriod(input: FirstBonusInput, projectedSavingsFirstBonusPeriod: Double): Double {
+    protected fun calculateHighestBalanceFirstBonusPeriod(
+        input: FirstBonusInput,
+        projectedSavingsFirstBonusPeriod: Double
+    ): Double {
         return input.balanceMustBeMoreThanForBonus.takeIf {
             it > projectedSavingsFirstBonusPeriod
         } ?: projectedSavingsFirstBonusPeriod
@@ -62,7 +77,10 @@ open class FirstBonusTermCalculation {
         return input.regularPayment * 24
     }
 
-    protected fun calculateProjectedFinalBonus(highestBalanceFinalBonusPeriod: Double, highestBalanceFirstBonusPeriod: Double): Double {
+    protected fun calculateProjectedFinalBonus(
+        highestBalanceFinalBonusPeriod: Double,
+        highestBalanceFirstBonusPeriod: Double
+    ): Double {
         return if (highestBalanceFinalBonusPeriod > highestBalanceFirstBonusPeriod) {
             (highestBalanceFinalBonusPeriod - highestBalanceFirstBonusPeriod) / 2
         } else {
@@ -70,21 +88,11 @@ open class FirstBonusTermCalculation {
         }
     }
 
-    protected fun calculateMonthsLeftInScheme(input: FirstBonusInput): Int {
+    protected fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
         val accountStartDateInDateTime = input.accountStartDate.convertYearMonthToDateTime()
         val accountSecondTermEndDateInDateTime = input.secondTermEndDate.convertYearMonthDayToDateTime()
-        return accountStartDateInDateTime.monthsSince(accountSecondTermEndDateInDateTime)
-    }
-
-    protected fun calculateMonthsLeftInFirstTerm(input: FirstBonusInput): Int {
-        val accountStartDateInDateTime = input.accountStartDate.convertYearMonthToDateTime()
         val accountFirstTermEndDateInDateTime = input.firstTermEndDate.convertYearMonthDayToDateTime()
-        return accountStartDateInDateTime.monthsSince(accountFirstTermEndDateInDateTime)
-    }
-
-    protected fun validateUserInput(regularPayment: Double) {
-        if (!RegularPaymentValidators.isValidRegularPayments(regularPayment)) {
-            throw InvalidRegularPaymentException(regularPayment)
-        }
+        return Pair(accountStartDateInDateTime.monthsSince(accountSecondTermEndDateInDateTime),
+        accountStartDateInDateTime.monthsSince(accountFirstTermEndDateInDateTime))
     }
 }

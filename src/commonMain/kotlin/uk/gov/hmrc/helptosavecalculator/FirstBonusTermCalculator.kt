@@ -15,8 +15,10 @@
  */
 package uk.gov.hmrc.helptosavecalculator
 
+import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusCalculatorResponse
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
+import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
 
 object FirstBonusTermCalculator : FirstBonusTermCalculation() {
 
@@ -27,17 +29,20 @@ object FirstBonusTermCalculator : FirstBonusTermCalculation() {
     private fun calculateFirstBonus(input: FirstBonusInput): FirstBonusCalculatorResponse {
         validateUserInput(input.regularPayment)
 
-        val monthLeftInScheme = calculateMonthsLeftInScheme(input)
-        val monthLetInFirstTerm = calculateMonthsLeftInFirstTerm(input)
+        val (monthLeftInScheme, monthLetInFirstTerm) = calculateMonthsLeftInScheme(input)
         val additionalSavingsThisMonth = calculateAdditionalSavingsThisMonth(input)
         val totalProjectedSavings = calculateTotalProjectedSavings(input, additionalSavingsThisMonth, monthLeftInScheme)
-        val projectedSavingsFirstBonusPeriod = calculateProjectedSavingsFirstBonusPeriod(input, additionalSavingsThisMonth, monthLetInFirstTerm)
-        val highestBalanceFirstBonusPeriod = calculateHighestBalanceFirstBonusPeriod(input, projectedSavingsFirstBonusPeriod)
+        val projectedSavingsFirstBonusPeriod = calculateProjectedSavingsFirstBonusPeriod(input,
+                additionalSavingsThisMonth,
+                monthLetInFirstTerm)
+        val highestBalanceFirstBonusPeriod = calculateHighestBalanceFirstBonusPeriod(input,
+                projectedSavingsFirstBonusPeriod)
         val projectedFirstBonus = calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod)
         val projectedAdditionalSavingsFinalBonusPeriod = calculateProjectedAdditionalSavingsFinalBonusPeriod(input)
         val projectedFinalBonus = calculateProjectedFinalBonus(totalProjectedSavings, highestBalanceFirstBonusPeriod)
         val totalProjectedBonuses = calculateTotalProjectedBonuses(projectedFirstBonus, projectedFinalBonus)
-        val totalProjectedSavingsIncludingBonuses = calculateTotalProjectedSavingsIncludeBonuses(totalProjectedSavings, totalProjectedBonuses)
+        val totalProjectedSavingsIncludingBonuses = calculateTotalProjectedSavingsIncludeBonuses(totalProjectedSavings,
+                totalProjectedBonuses)
 
         return FirstBonusCalculatorResponse(
                 totalProjectedSavingsIncludingBonuses,
@@ -48,5 +53,11 @@ object FirstBonusTermCalculator : FirstBonusTermCalculation() {
                 projectedAdditionalSavingsFinalBonusPeriod,
                 projectedFinalBonus
         )
+    }
+
+    private fun validateUserInput(regularPayment: Double) {
+        if (!RegularPaymentValidators.isValidRegularPayments(regularPayment)) {
+            throw InvalidRegularPaymentException(regularPayment)
+        }
     }
 }
