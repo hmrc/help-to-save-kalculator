@@ -46,6 +46,31 @@ This will returns an object of type `CalculatorResponse`.  This provide headline
 * `endOfPeriod2Savings: Double`
 * `endOfPeriod2Total: Double`
 
+### For existing accounts in first term
+```kotlin
+FirstBonusTermCalculator.runFirstBonusCalculator(input)
+```
+Where `input` have the following object:
+```
+regularPayment: Double, // 25.0
+currentBalance: Double, // 25.0
+paidInThisMonth: Double, // 50.0
+accountStartDate: String, // "2020-03"
+firstTermEndDate: String, // "2022-02-28"
+secondTermEndDate: String, // "2024-02-28"
+balanceMustBeMoreThanForBonus: Double // 50.0
+```
+
+## Response
+This will returns an object of type `FirstBonusCalculatorResponse`. 
+* `val totalProjectedSavingsIncludingBonuses: Double`
+* `val totalProjectedSavings: Double`
+* `val totalProjectedBonuses: Double`
+* `val projectedSavingsFirstBonusPeriod: Double`
+* `val projectedFirstBonus: Double`
+* `val projectedAdditionalSavingsFinalBonusPeriod: Double`
+* `val projectedFinalBonus: Double`
+
 ## Validation
 
 To validate the monthly contributions:

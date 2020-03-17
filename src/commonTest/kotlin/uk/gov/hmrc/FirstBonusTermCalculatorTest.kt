@@ -15,13 +15,13 @@
  */
 package uk.gov.hmrc
 
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 import uk.gov.hmrc.helptosavecalculator.Calculator
 import uk.gov.hmrc.helptosavecalculator.FirstBonusTermCalculator.runFirstBonusCalculator
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 
 class FirstBonusTermCalculatorTest {
     @Test

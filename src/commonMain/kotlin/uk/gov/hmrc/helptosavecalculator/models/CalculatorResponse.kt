@@ -40,11 +40,11 @@ data class MonthlyBreakdown(
 }
 
 data class FirstBonusCalculatorResponse(
-        val totalProjectedSavingsIncludingBonuses: Double,
-        val totalProjectedSavings: Double,
-        val totalProjectedBonuses: Double,
-        val projectedSavingsFirstBonusPeriod: Double,
-        val projectedFirstBonus: Double,
-        val projectedAdditionalSavingsFinalBonusPeriod: Double,
-        val projectedFinalBonus: Double
+    val totalProjectedSavingsIncludingBonuses: Double,
+    val totalProjectedSavings: Double,
+    val totalProjectedBonuses: Double,
+    val projectedSavingsFirstBonusPeriod: Double,
+    val projectedFirstBonus: Double,
+    val projectedAdditionalSavingsFinalBonusPeriod: Double,
+    val projectedFinalBonus: Double
 )
