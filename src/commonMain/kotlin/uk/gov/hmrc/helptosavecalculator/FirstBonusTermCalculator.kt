@@ -34,7 +34,7 @@ object FirstBonusTermCalculator : FirstBonusTermCalculation() {
         val totalProjectedSavings = calculateTotalProjectedSavings(input, additionalSavingsThisMonth, monthLeftInScheme)
         val projectedSavingsFirstBonusPeriod = calculateProjectedSavingsFirstBonusPeriod(input,
                 additionalSavingsThisMonth,
-                monthLetInFirstTerm)
+                monthLeftInFirstTerm)
         val highestBalanceFirstBonusPeriod = calculateHighestBalanceFirstBonusPeriod(input,
                 projectedSavingsFirstBonusPeriod)
         val projectedFirstBonus = calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod)
