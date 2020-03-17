@@ -63,13 +63,13 @@ balanceMustBeMoreThanForBonus: Double // 50.0
 
 ## Response
 This will returns an object of type `FirstBonusCalculatorResponse`. 
-* `val totalProjectedSavingsIncludingBonuses: Double`
-* `val totalProjectedSavings: Double`
-* `val totalProjectedBonuses: Double`
-* `val projectedSavingsFirstBonusPeriod: Double`
-* `val projectedFirstBonus: Double`
-* `val projectedAdditionalSavingsFinalBonusPeriod: Double`
-* `val projectedFinalBonus: Double`
+* `totalProjectedSavingsIncludingBonuses: Double`
+* `totalProjectedSavings: Double`
+* `totalProjectedBonuses: Double`
+* `projectedSavingsFirstBonusPeriod: Double`
+* `projectedFirstBonus: Double`
+* `projectedAdditionalSavingsFinalBonusPeriod: Double`
+* `projectedFinalBonus: Double`
 
 ## Validation
 
