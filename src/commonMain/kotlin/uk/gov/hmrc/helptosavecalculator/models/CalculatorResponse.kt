@@ -38,3 +38,13 @@ data class MonthlyBreakdown(
 ) {
     val bonusToDate: Double = period1Bonus + period2Bonus
 }
+
+data class FirstBonusCalculatorResponse(
+        val totalProjectedSavingsIncludingBonuses: Double,
+        val totalProjectedSavings: Double,
+        val totalProjectedBonuses: Double,
+        val projectedSavingsFirstBonusPeriod: Double,
+        val projectedFirstBonus: Double,
+        val projectedAdditionalSavingsFinalBonusPeriod: Double,
+        val projectedFinalBonus: Double
+)
