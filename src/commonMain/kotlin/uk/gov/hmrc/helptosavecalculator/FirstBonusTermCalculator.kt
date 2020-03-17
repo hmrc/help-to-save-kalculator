@@ -29,7 +29,7 @@ object FirstBonusTermCalculator : FirstBonusTermCalculation() {
     private fun calculateFirstBonus(input: FirstBonusInput): FirstBonusCalculatorResponse {
         validateUserInput(input.regularPayment)
 
-        val (monthLeftInScheme, monthLetInFirstTerm) = calculateMonthsLeftInScheme(input)
+        val (monthLeftInScheme, monthLeftInFirstTerm) = calculateMonthsLeftInScheme(input)
         val additionalSavingsThisMonth = calculateAdditionalSavingsThisMonth(input)
         val totalProjectedSavings = calculateTotalProjectedSavings(input, additionalSavingsThisMonth, monthLeftInScheme)
         val projectedSavingsFirstBonusPeriod = calculateProjectedSavingsFirstBonusPeriod(input,
