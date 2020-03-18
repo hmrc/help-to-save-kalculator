@@ -22,6 +22,7 @@ import uk.gov.hmrc.helptosavecalculator.Calculator
 import uk.gov.hmrc.helptosavecalculator.FirstBonusTermCalculator.runFirstBonusCalculator
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
+import uk.gov.hmrc.helptosavecalculator.models.YearMonthDayInput
 
 class FirstBonusTermCalculatorTest {
     @Test
@@ -43,9 +44,9 @@ class FirstBonusTermCalculatorTest {
         val input = FirstBonusInput(1.0,
                 0.0,
                 0.0,
-                "2020-03",
-                "2022-02-28",
-                "2024-02-28",
+                YearMonthDayInput(2020, 3),
+                YearMonthDayInput(2022, 2, 28),
+                YearMonthDayInput(2024, 2, 28),
                 0.0)
         val calculator = runFirstBonusCalculator(input)
 
@@ -63,9 +64,9 @@ class FirstBonusTermCalculatorTest {
         val input = FirstBonusInput(25.0,
                 0.0,
                 0.0,
-                "2020-03",
-                "2022-02-28",
-                "2024-02-28",
+                YearMonthDayInput(2020, 3),
+                YearMonthDayInput(2022, 2, 28),
+                YearMonthDayInput(2024, 2, 28),
                 0.0)
         val calculator = runFirstBonusCalculator(input)
 
@@ -83,9 +84,9 @@ class FirstBonusTermCalculatorTest {
         val input = FirstBonusInput(50.0,
                 0.0,
                 0.0,
-                "2020-03",
-                "2022-02-28",
-                "2024-02-28",
+                YearMonthDayInput(2020, 3),
+                YearMonthDayInput(2022, 2, 28),
+                YearMonthDayInput(2024, 2, 28),
                 0.0)
         val calculator = runFirstBonusCalculator(input)
 
@@ -103,9 +104,9 @@ class FirstBonusTermCalculatorTest {
         val input = FirstBonusInput(25.0,
                 25.0,
                 50.0,
-                "2020-03",
-                "2022-02-28",
-                "2024-02-28",
+                YearMonthDayInput(2020, 3),
+                YearMonthDayInput(2022, 2, 28),
+                YearMonthDayInput(2024, 2, 28),
                 50.0)
         val calculator = runFirstBonusCalculator(input)
 

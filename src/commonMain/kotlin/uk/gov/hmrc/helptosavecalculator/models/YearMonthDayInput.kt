@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package uk.gov.hmrc.helptosavecalculator.utils
+package uk.gov.hmrc.helptosavecalculator.models
 
-import com.soywiz.klock.DateFormat
 import com.soywiz.klock.DateTime
-import com.soywiz.klock.parse
 
-internal fun String.convertYearMonthToDateTime(): DateTime {
-    val dateFormat = DateFormat("yyyy-MM-dd")
-    return dateFormat.parse("$this-01").local
-}
-
-internal fun String.convertYearMonthDayToDateTime(): DateTime {
-    val dateFormat = DateFormat("yyyy-MM-dd")
-    return dateFormat.parse(this).local
+data class YearMonthDayInput(
+    val year: Int,
+    val month: Int,
+    val day: Int = 1
+) {
+    internal fun convertToDateTime(): DateTime {
+        return DateTime(year, month, day)
+    }
 }

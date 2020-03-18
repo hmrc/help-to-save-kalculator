@@ -16,8 +16,6 @@
 package uk.gov.hmrc.helptosavecalculator
 
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
-import uk.gov.hmrc.helptosavecalculator.utils.convertYearMonthDayToDateTime
-import uk.gov.hmrc.helptosavecalculator.utils.convertYearMonthToDateTime
 import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 
 open class FirstBonusTermCalculation {
@@ -89,10 +87,11 @@ open class FirstBonusTermCalculation {
     }
 
     protected fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
-        val accountStartDateInDateTime = input.accountStartDate.convertYearMonthToDateTime()
-        val accountSecondTermEndDateInDateTime = input.secondTermEndDate.convertYearMonthDayToDateTime()
-        val accountFirstTermEndDateInDateTime = input.firstTermEndDate.convertYearMonthDayToDateTime()
-        return Pair(accountStartDateInDateTime.monthsSince(accountSecondTermEndDateInDateTime),
-        accountStartDateInDateTime.monthsSince(accountFirstTermEndDateInDateTime))
+        val startDate = input.accountStartDate.convertToDateTime()
+        val secondTermEndDate = input.secondTermEndDate.convertToDateTime()
+        val firstTermEndDate = input.firstTermEndDate.convertToDateTime()
+        val monthsLeftInScheme = startDate.monthsSince(secondTermEndDate)
+        val monthsLeftInFirstTerm = startDate.monthsSince(firstTermEndDate)
+        return Pair(monthsLeftInScheme, monthsLeftInFirstTerm)
     }
 }
