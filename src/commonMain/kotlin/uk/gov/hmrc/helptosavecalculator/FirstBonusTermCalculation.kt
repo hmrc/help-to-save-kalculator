@@ -18,16 +18,16 @@ package uk.gov.hmrc.helptosavecalculator
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
 import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 
-open class FirstBonusTermCalculation {
+internal class FirstBonusTermCalculation {
 
-    protected fun calculateTotalProjectedSavingsIncludeBonuses(
+    fun calculateTotalProjectedSavingsIncludeBonuses(
         totalProjectedSavings: Double,
         totalProjectedBonuses: Double
     ): Double {
         return totalProjectedSavings + totalProjectedBonuses
     }
 
-    protected fun calculateAdditionalSavingsThisMonth(input: FirstBonusInput): Double {
+    fun calculateAdditionalSavingsThisMonth(input: FirstBonusInput): Double {
         return if (input.regularPayment > input.paidInThisMonth) {
             input.regularPayment - input.paidInThisMonth
         } else {
@@ -35,7 +35,7 @@ open class FirstBonusTermCalculation {
         }
     }
 
-    protected fun calculateTotalProjectedSavings(
+    fun calculateTotalProjectedSavings(
         input: FirstBonusInput,
         additionalSavingsThisMonth: Double,
         monthsLeftInScheme: Int
@@ -43,14 +43,14 @@ open class FirstBonusTermCalculation {
         return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInScheme)
     }
 
-    protected fun calculateTotalProjectedBonuses(
+    fun calculateTotalProjectedBonuses(
         projectedFirstBonus: Double,
         projectedFinalBonus: Double
     ): Double {
         return projectedFirstBonus + projectedFinalBonus
     }
 
-    protected fun calculateProjectedSavingsFirstBonusPeriod(
+    fun calculateProjectedSavingsFirstBonusPeriod(
         input: FirstBonusInput,
         additionalSavingsThisMonth: Double,
         monthsLeftInFirstTerm: Int
@@ -58,7 +58,7 @@ open class FirstBonusTermCalculation {
         return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInFirstTerm)
     }
 
-    protected fun calculateHighestBalanceFirstBonusPeriod(
+    fun calculateHighestBalanceFirstBonusPeriod(
         input: FirstBonusInput,
         projectedSavingsFirstBonusPeriod: Double
     ): Double {
@@ -67,15 +67,15 @@ open class FirstBonusTermCalculation {
         } ?: projectedSavingsFirstBonusPeriod
     }
 
-    protected fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double): Double {
+    fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double): Double {
         return highestBalanceFirstBonusPeriod / 2
     }
 
-    protected fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput): Double {
+    fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput): Double {
         return input.regularPayment * 24
     }
 
-    protected fun calculateProjectedFinalBonus(
+    fun calculateProjectedFinalBonus(
         highestBalanceFinalBonusPeriod: Double,
         highestBalanceFirstBonusPeriod: Double
     ): Double {
@@ -86,7 +86,7 @@ open class FirstBonusTermCalculation {
         }
     }
 
-    protected fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
+    fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
         val startDate = input.accountStartDate.convertToDateTime()
         val secondTermEndDate = input.secondTermEndDate.convertToDateTime()
         val firstTermEndDate = input.firstTermEndDate.convertToDateTime()
