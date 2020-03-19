@@ -87,11 +87,11 @@ internal class FirstBonusTermCalculation {
     }
 
     fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
-        val startDate = input.thisMonthEndDate.convertToDateTime()
+        val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()
         val secondTermEndDate = input.secondTermEndDate.convertToDateTime()
         val firstTermEndDate = input.firstTermEndDate.convertToDateTime()
-        val monthsLeftInScheme = startDate.monthsSince(secondTermEndDate)
-        val monthsLeftInFirstTerm = startDate.monthsSince(firstTermEndDate)
+        val monthsLeftInScheme = thisMonthEndDate.monthsSince(secondTermEndDate)
+        val monthsLeftInFirstTerm = thisMonthEndDate.monthsSince(firstTermEndDate)
         return Pair(monthsLeftInScheme, monthsLeftInFirstTerm)
     }
 }
