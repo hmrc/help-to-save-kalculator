@@ -19,7 +19,7 @@ data class FirstBonusInput(
     val regularPayment: Double,
     val currentBalance: Double,
     val paidInThisMonth: Double,
-    val accountStartDate: YearMonthDayInput,
+    val thisMonthEndDate: YearMonthDayInput,
     val firstTermEndDate: YearMonthDayInput,
     val secondTermEndDate: YearMonthDayInput,
     val balanceMustBeMoreThanForBonus: Double
