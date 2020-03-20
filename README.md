@@ -55,7 +55,7 @@ Where `input` have the following object:
 regularPayment: Double, // 25.0
 currentBalance: Double, // 25.0
 paidInThisMonth: Double, // 50.0
-accountStartDate: YearMonthDayInput, // YearMonthDayInput(2020, 3)
+thisMonthEndDate: YearMonthDayInput, // YearMonthDayInput(2020, 3, 31)
 firstTermEndDate: YearMonthDayInput, // YearMonthDayInput(2022, 2, 28)
 secondTermEndDate: YearMonthDayInput, // YearMonthDayInput(2024, 2, 28)
 balanceMustBeMoreThanForBonus: Double // 50.0
