@@ -52,5 +52,6 @@ data class FirstBonusCalculatorResponse(
 data class FinalBonusCalculatorResponse(
     val totalProjectedSavingsIncludingBonuses: Double,
     val totalProjectedSavings: Double,
-    val totalProjectedBonuses: Double
+    val totalProjectedBonuses: Double,
+    val canEarnFinalBonus: Boolean
 )

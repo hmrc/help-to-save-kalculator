@@ -67,6 +67,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(36.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(24.0, calculator.totalProjectedSavings)
         assertEquals(12.0, calculator.totalProjectedBonuses)
+        assertEquals(true, calculator.canEarnFinalBonus)
     }
 
     @Test
@@ -83,6 +84,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(900.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(600.0, calculator.totalProjectedSavings)
         assertEquals(300.0, calculator.totalProjectedBonuses)
+        assertEquals(true, calculator.canEarnFinalBonus)
     }
 
     @Test
@@ -99,6 +101,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(1800.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(1200.0, calculator.totalProjectedSavings)
         assertEquals(600.0, calculator.totalProjectedBonuses)
+        assertEquals(true, calculator.canEarnFinalBonus)
     }
 
     @Test
@@ -115,5 +118,23 @@ class FinalBonusTermCalculatorTest {
         assertEquals(900.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(600.0, calculator.totalProjectedSavings)
         assertEquals(300.0, calculator.totalProjectedBonuses)
+        assertEquals(true, calculator.canEarnFinalBonus)
+    }
+
+    @Test
+    fun `GIVEN account can not longer earn final bonus WHEN calculator called THEN can earn final bonus return false`() {
+        val input = FinalBonusInput(25.0,
+                0.0,
+                0.0,
+                YearMonthDayInput(2024, 2),
+                YearMonthDayInput(2024, 2, 28),
+                1200.0,
+                0.0)
+        val calculator = runFinalBonusCalculator(input)
+
+        assertEquals(25.0, calculator.totalProjectedSavingsIncludingBonuses)
+        assertEquals(25.0, calculator.totalProjectedSavings)
+        assertEquals(0.0, calculator.totalProjectedBonuses)
+        assertEquals(false, calculator.canEarnFinalBonus)
     }
 }
