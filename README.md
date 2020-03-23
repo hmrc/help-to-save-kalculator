@@ -52,13 +52,13 @@ FirstBonusTermCalculator.runFirstBonusCalculator(input)
 ```
 Where `input` have the following object:
 ```
-regularPayment: Double, // 25.0
-currentBalance: Double, // 25.0
-paidInThisMonth: Double, // 50.0
-thisMonthEndDate: YearMonthDayInput, // YearMonthDayInput(2020, 3, 31)
-firstTermEndDate: YearMonthDayInput, // YearMonthDayInput(2022, 2, 28)
-secondTermEndDate: YearMonthDayInput, // YearMonthDayInput(2024, 2, 28)
-balanceMustBeMoreThanForBonus: Double // 50.0
+regularPayment: Double,                 // 25.0
+currentBalance: Double,                 // 25.0
+paidInThisMonth: Double,                // 50.0
+thisMonthEndDate: YearMonthDayInput,    // YearMonthDayInput(2020, 3, 31)
+firstTermEndDate: YearMonthDayInput,    // YearMonthDayInput(2022, 2, 28)
+secondTermEndDate: YearMonthDayInput,   // YearMonthDayInput(2024, 2, 28)
+balanceMustBeMoreThanForBonus: Double   // 50.0
 ```
 
 ## Response
@@ -70,6 +70,28 @@ This will returns an object of type `FirstBonusCalculatorResponse`.
 * `projectedFirstBonus: Double`
 * `projectedAdditionalSavingsFinalBonusPeriod: Double`
 * `projectedFinalBonus: Double`
+
+### For existing accounts in final term
+```kotlin
+FinalBonusTermCalculator.runFinalBonusCalculator(input)
+```
+Where `input` have the following object:
+```
+regularPayment: Double,                 // 25.0
+currentBalance: Double,                 // 25.0
+paidInThisMonth: Double,                // 50.0
+thisMonthEndDate: YearMonthDayInput,    // YearMonthDayInput(2022, 3, 31)
+secondTermEndDate: YearMonthDayInput,   // YearMonthDayInput(2024, 2, 28)
+balanceMustBeMoreThanForBonus: Double,  // 50.0
+secondTermBonusEstimate: Double         // 25.0
+```
+
+## Response
+This will returns an object of type `FinalBonusCalculatorResponse`. 
+* `totalProjectedSavingsIncludingBonuses: Double`
+* `totalProjectedSavings: Double`
+* `totalProjectedBonuses: Double`
+* `canEarnFinalBonus: Boolean`
 
 ## Validation
 

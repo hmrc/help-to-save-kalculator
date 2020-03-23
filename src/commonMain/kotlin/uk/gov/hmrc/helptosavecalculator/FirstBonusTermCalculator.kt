@@ -24,9 +24,7 @@ object FirstBonusTermCalculator {
 
     private val calculation = FirstBonusTermCalculation()
 
-    fun runFirstBonusCalculator(input: FirstBonusInput): FirstBonusCalculatorResponse {
-        return calculateFirstBonus(input)
-    }
+    fun runFirstBonusCalculator(input: FirstBonusInput) = calculateFirstBonus(input)
 
     private fun calculateFirstBonus(input: FirstBonusInput): FirstBonusCalculatorResponse {
         validateUserInput(input.regularPayment)

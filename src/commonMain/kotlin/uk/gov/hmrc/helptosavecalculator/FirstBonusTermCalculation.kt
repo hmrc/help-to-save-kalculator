@@ -23,68 +23,48 @@ internal class FirstBonusTermCalculation {
     fun calculateTotalProjectedSavingsIncludeBonuses(
         totalProjectedSavings: Double,
         totalProjectedBonuses: Double
-    ): Double {
-        return totalProjectedSavings + totalProjectedBonuses
-    }
+    ) = totalProjectedSavings + totalProjectedBonuses
 
-    fun calculateAdditionalSavingsThisMonth(input: FirstBonusInput): Double {
-        return if (input.regularPayment > input.paidInThisMonth) {
+    fun calculateAdditionalSavingsThisMonth(input: FirstBonusInput) =
+            if (input.regularPayment > input.paidInThisMonth) {
             input.regularPayment - input.paidInThisMonth
-        } else {
-            0.0
-        }
-    }
+        } else 0.0
 
     fun calculateTotalProjectedSavings(
         input: FirstBonusInput,
         additionalSavingsThisMonth: Double,
         monthsLeftInScheme: Int
-    ): Double {
-        return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInScheme)
-    }
+    ) = input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInScheme)
 
     fun calculateTotalProjectedBonuses(
         projectedFirstBonus: Double,
         projectedFinalBonus: Double
-    ): Double {
-        return projectedFirstBonus + projectedFinalBonus
-    }
+    ) = projectedFirstBonus + projectedFinalBonus
 
     fun calculateProjectedSavingsFirstBonusPeriod(
         input: FirstBonusInput,
         additionalSavingsThisMonth: Double,
         monthsLeftInFirstTerm: Int
-    ): Double {
-        return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInFirstTerm)
-    }
+    ) = input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInFirstTerm)
 
     fun calculateHighestBalanceFirstBonusPeriod(
         input: FirstBonusInput,
         projectedSavingsFirstBonusPeriod: Double
-    ): Double {
-        return input.balanceMustBeMoreThanForBonus.takeIf {
-            it > projectedSavingsFirstBonusPeriod
-        } ?: projectedSavingsFirstBonusPeriod
-    }
+    ) = input.balanceMustBeMoreThanForBonus.takeIf {
+        it > projectedSavingsFirstBonusPeriod
+    } ?: projectedSavingsFirstBonusPeriod
 
-    fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double): Double {
-        return highestBalanceFirstBonusPeriod / 2
-    }
+    fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double) =
+            highestBalanceFirstBonusPeriod / 2
 
-    fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput): Double {
-        return input.regularPayment * 24
-    }
+    fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput) = input.regularPayment * 24
 
     fun calculateProjectedFinalBonus(
         highestBalanceFinalBonusPeriod: Double,
         highestBalanceFirstBonusPeriod: Double
-    ): Double {
-        return if (highestBalanceFinalBonusPeriod > highestBalanceFirstBonusPeriod) {
-            (highestBalanceFinalBonusPeriod - highestBalanceFirstBonusPeriod) / 2
-        } else {
-            0.0
-        }
-    }
+    ) = if (highestBalanceFinalBonusPeriod > highestBalanceFirstBonusPeriod) {
+        (highestBalanceFinalBonusPeriod - highestBalanceFirstBonusPeriod) / 2
+    } else 0.0
 
     fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
         val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()
