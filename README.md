@@ -9,13 +9,13 @@
 [ ![Download](https://api.bintray.com/packages/hmrc/mobile-releases/help-to-save-kalculator/images/download.svg) ](https://bintray.com/hmrc/mobile-releases/help-to-save-kalculator/_latestVersion)
 ## Calculate help to save bonus
 
-### For new users
+## For new users
 ```kotlin
 Calculator.run(
                 regularPayment = 50.0             // Must be between 1 and 50   
 )          
 ```
-### For users with existing accounts
+## For users with existing accounts
 ```kotlin
 Calculator.run(
                 regularPayment = 50.0,            // Must be between 1 and 50  
@@ -26,7 +26,7 @@ Calculator.run(
 )          
 ```
 
-## Response
+### Response
 This will returns an object of type `CalculatorResponse`.  This provide headline figures that are the results at the end of the scheme. However, if a monthly breakdown is needed a cumulative breakdown is provided in `monthlyBreakdown`
 
 * `monthlyPayments: Double`
@@ -46,11 +46,11 @@ This will returns an object of type `CalculatorResponse`.  This provide headline
 * `endOfPeriod2Savings: Double`
 * `endOfPeriod2Total: Double`
 
-### For existing accounts in first term
+## For existing accounts in first term
 ```kotlin
 FirstBonusTermCalculator.runFirstBonusCalculator(input)
 ```
-Where `input` have the following object:
+Where `input` is of the type `FirstBonusInput` with the following parameters:
 ```
 regularPayment: Double,                 // 25.0
 currentBalance: Double,                 // 25.0
@@ -61,7 +61,7 @@ secondTermEndDate: YearMonthDayInput,   // YearMonthDayInput(2024, 2, 28)
 balanceMustBeMoreThanForBonus: Double   // 50.0
 ```
 
-## Response
+### Response
 This will returns an object of type `FirstBonusCalculatorResponse`. 
 * `totalProjectedSavingsIncludingBonuses: Double`
 * `totalProjectedSavings: Double`
@@ -71,11 +71,11 @@ This will returns an object of type `FirstBonusCalculatorResponse`.
 * `projectedAdditionalSavingsFinalBonusPeriod: Double`
 * `projectedFinalBonus: Double`
 
-### For existing accounts in final term
+## For existing accounts in final term
 ```kotlin
 FinalBonusTermCalculator.runFinalBonusCalculator(input)
 ```
-Where `input` have the following object:
+Where `input` is of the type `FinalBonusInput` with the following parameters:
 ```
 regularPayment: Double,                 // 25.0
 currentBalance: Double,                 // 25.0
@@ -86,7 +86,7 @@ balanceMustBeMoreThanForBonus: Double,  // 50.0
 secondTermBonusEstimate: Double         // 25.0
 ```
 
-## Response
+### Response
 This will returns an object of type `FinalBonusCalculatorResponse`. 
 * `totalProjectedSavingsIncludingBonuses: Double`
 * `totalProjectedSavings: Double`
