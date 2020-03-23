@@ -64,9 +64,7 @@ internal class FirstBonusTermCalculation {
         highestBalanceFirstBonusPeriod: Double
     ) = if (highestBalanceFinalBonusPeriod > highestBalanceFirstBonusPeriod) {
         (highestBalanceFinalBonusPeriod - highestBalanceFirstBonusPeriod) / 2
-    } else {
-        0.0
-    }
+    } else 0.0
 
     fun calculateMonthsLeftInScheme(input: FirstBonusInput): Pair<Int, Int> {
         val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()
