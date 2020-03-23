@@ -24,9 +24,7 @@ object FinalBonusTermCalculator {
 
     private val calculation = FinalBonusTermCalculation()
 
-    fun runFinalBonusCalculator(input: FinalBonusInput): FinalBonusCalculatorResponse {
-        return calculateFinalBonus(input)
-    }
+    fun runFinalBonusCalculator(input: FinalBonusInput): FinalBonusCalculatorResponse = calculateFinalBonus(input)
 
     private fun calculateFinalBonus(input: FinalBonusInput): FinalBonusCalculatorResponse {
         var canEarnFinalBonus = true

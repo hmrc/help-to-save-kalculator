@@ -20,52 +20,38 @@ import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 
 internal class FinalBonusTermCalculation {
 
-    fun calculateAdditionalSavingsThisMonth(input: FinalBonusInput): Double {
-        return if (input.regularPayment > input.paidInThisMonth) {
+    fun calculateAdditionalSavingsThisMonth(input: FinalBonusInput) =
+        if (input.regularPayment > input.paidInThisMonth) {
             input.regularPayment - input.paidInThisMonth
-        } else {
-            0.0
-        }
-    }
+        } else 0.0
 
     fun calculateTotalProjectedSavingsIncludeBonuses(
         totalProjectedSavings: Double,
         totalProjectedBonuses: Double
-    ): Double {
-        return totalProjectedSavings + totalProjectedBonuses
-    }
+    ) = totalProjectedSavings + totalProjectedBonuses
 
     fun calculateTotalProjectedSavings(
         input: FinalBonusInput,
         additionalSavingsThisMonth: Double,
         monthsLeftInScheme: Int
-    ): Double {
-        return input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInScheme)
-    }
+    ) = input.currentBalance + additionalSavingsThisMonth + (input.regularPayment * monthsLeftInScheme)
 
     fun calculateTotalProjectedBonuses(
         highestBalanceFinalBonusPeriod: Double,
         input: FinalBonusInput
-    ): Double {
-        return if (highestBalanceFinalBonusPeriod > input.balanceMustBeMoreThanForBonus) {
+    ) = if (highestBalanceFinalBonusPeriod > input.balanceMustBeMoreThanForBonus) {
             (highestBalanceFinalBonusPeriod - input.balanceMustBeMoreThanForBonus) / 2
-        } else {
-            0.0
-        }
-    }
+        } else 0.0
 
-    fun calculateMaybeHighestBalanceSoFar(input: FinalBonusInput): Double {
-        return input.balanceMustBeMoreThanForBonus + (input.secondTermBonusEstimate * 2)
-    }
+    fun calculateMaybeHighestBalanceSoFar(input: FinalBonusInput) =
+            input.balanceMustBeMoreThanForBonus + (input.secondTermBonusEstimate * 2)
 
     fun calculateHighestBalanceFinalBonusPeriod(
         highestBalanceSoFar: Double,
         totalProjectedSavings: Double
-    ): Double {
-        return (highestBalanceSoFar).takeIf {
-            it > totalProjectedSavings
-        } ?: totalProjectedSavings
-    }
+    ) = (highestBalanceSoFar).takeIf {
+        it > totalProjectedSavings
+    } ?: totalProjectedSavings
 
     fun calculateMonthsLeftInScheme(input: FinalBonusInput): Int {
         val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()
