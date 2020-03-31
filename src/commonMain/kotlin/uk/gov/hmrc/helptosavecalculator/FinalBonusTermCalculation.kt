@@ -53,6 +53,17 @@ internal class FinalBonusTermCalculation {
         it > totalProjectedSavings
     } ?: totalProjectedSavings
 
+    fun finalBonusStatus(
+        input: FinalBonusInput,
+        monthsLeftInScheme: Int,
+        additionalSavingsThisMonth: Double
+    ): String {
+        val highestPossibleBalance = input.currentBalance + additionalSavingsThisMonth + (monthsLeftInScheme * 50)
+        return if (input.secondTermBonusEstimate > 0.0) "earned" else {
+            if (highestPossibleBalance > input.balanceMustBeMoreThanForBonus) "possibleToEarn" else "cannotEarn"
+        }
+    }
+
     fun calculateMonthsLeftInScheme(input: FinalBonusInput): Int {
         val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()
         val secondTermEndDate = input.secondTermEndDate.convertToDateTime()

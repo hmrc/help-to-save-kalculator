@@ -27,7 +27,6 @@ object FinalBonusTermCalculator {
     fun runFinalBonusCalculator(input: FinalBonusInput): FinalBonusCalculatorResponse = calculateFinalBonus(input)
 
     private fun calculateFinalBonus(input: FinalBonusInput): FinalBonusCalculatorResponse {
-        var canEarnFinalBonus = true
         validateUserInput(input.regularPayment)
 
         val monthLeftInScheme = calculation.calculateMonthsLeftInScheme(input)
@@ -45,16 +44,13 @@ object FinalBonusTermCalculator {
         val totalProjectedSavingsIncludingBonuses = calculation.calculateTotalProjectedSavingsIncludeBonuses(
                 totalProjectedSavings,
                 totalProjectedBonuses)
-
-        if (totalProjectedBonuses == 0.0) {
-            canEarnFinalBonus = false
-        }
+        val finalBonusStatus = calculation.finalBonusStatus(input, monthLeftInScheme, additionalSavingsThisMonth)
 
         return FinalBonusCalculatorResponse(
                 totalProjectedSavingsIncludingBonuses,
                 totalProjectedSavings,
                 totalProjectedBonuses,
-                canEarnFinalBonus
+                finalBonusStatus
         )
     }
 

@@ -67,7 +67,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(36.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(24.0, calculator.totalProjectedSavings)
         assertEquals(12.0, calculator.totalProjectedBonuses)
-        assertEquals(true, calculator.canEarnFinalBonus)
+        assertEquals("possibleToEarn", calculator.finalBonusStatus)
     }
 
     @Test
@@ -84,7 +84,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(900.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(600.0, calculator.totalProjectedSavings)
         assertEquals(300.0, calculator.totalProjectedBonuses)
-        assertEquals(true, calculator.canEarnFinalBonus)
+        assertEquals("possibleToEarn", calculator.finalBonusStatus)
     }
 
     @Test
@@ -101,7 +101,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(1800.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(1200.0, calculator.totalProjectedSavings)
         assertEquals(600.0, calculator.totalProjectedBonuses)
-        assertEquals(true, calculator.canEarnFinalBonus)
+        assertEquals("possibleToEarn", calculator.finalBonusStatus)
     }
 
     @Test
@@ -118,7 +118,7 @@ class FinalBonusTermCalculatorTest {
         assertEquals(900.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(600.0, calculator.totalProjectedSavings)
         assertEquals(300.0, calculator.totalProjectedBonuses)
-        assertEquals(true, calculator.canEarnFinalBonus)
+        assertEquals("earned", calculator.finalBonusStatus)
     }
 
     @Test
@@ -135,6 +135,6 @@ class FinalBonusTermCalculatorTest {
         assertEquals(25.0, calculator.totalProjectedSavingsIncludingBonuses)
         assertEquals(25.0, calculator.totalProjectedSavings)
         assertEquals(0.0, calculator.totalProjectedBonuses)
-        assertEquals(false, calculator.canEarnFinalBonus)
+        assertEquals("cannotEarn", calculator.finalBonusStatus)
     }
 }
