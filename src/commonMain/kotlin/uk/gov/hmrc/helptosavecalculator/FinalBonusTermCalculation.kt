@@ -16,6 +16,7 @@
 package uk.gov.hmrc.helptosavecalculator
 
 import uk.gov.hmrc.helptosavecalculator.models.FinalBonusInput
+import uk.gov.hmrc.helptosavecalculator.models.FinalBonusStatus
 import uk.gov.hmrc.helptosavecalculator.utils.monthsSince
 
 internal class FinalBonusTermCalculation {
@@ -52,6 +53,18 @@ internal class FinalBonusTermCalculation {
     ) = (highestBalanceSoFar).takeIf {
         it > totalProjectedSavings
     } ?: totalProjectedSavings
+
+    fun finalBonusStatus(
+        input: FinalBonusInput,
+        monthsLeftInScheme: Int,
+        additionalSavingsThisMonth: Double
+    ): FinalBonusStatus {
+        val highestPossibleBalance = input.currentBalance + additionalSavingsThisMonth + (monthsLeftInScheme * 50)
+        return if (input.secondTermBonusEstimate > 0.0) FinalBonusStatus.EARNED else {
+            if (highestPossibleBalance > input.balanceMustBeMoreThanForBonus)
+                FinalBonusStatus.POSSIBLE_TO_EARN else FinalBonusStatus.CANNOT_EARN
+        }
+    }
 
     fun calculateMonthsLeftInScheme(input: FinalBonusInput): Int {
         val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()

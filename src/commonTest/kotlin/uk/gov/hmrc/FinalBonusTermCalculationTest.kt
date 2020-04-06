@@ -19,6 +19,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import uk.gov.hmrc.helptosavecalculator.FinalBonusTermCalculation
 import uk.gov.hmrc.helptosavecalculator.models.FinalBonusInput
+import uk.gov.hmrc.helptosavecalculator.models.FinalBonusStatus
 import uk.gov.hmrc.helptosavecalculator.models.YearMonthDayInput
 
 class FinalBonusTermCalculationTest {
@@ -152,5 +153,50 @@ class FinalBonusTermCalculationTest {
         val result = calculation.calculateMonthsLeftInScheme(input)
 
         assertEquals(11, result)
+    }
+
+    @Test
+    fun `GIVEN customer already earned final bonus WHEN finalBonusStatus called THEN return earned`() {
+        val input = FinalBonusInput(10.0,
+                0.0,
+                25.0,
+                YearMonthDayInput(2023, 3),
+                YearMonthDayInput(2024, 2, 28),
+                10.0,
+                5.0)
+        val calculation = FinalBonusTermCalculation()
+        val result = calculation.finalBonusStatus(input, 23, 0.0)
+
+        assertEquals(FinalBonusStatus.EARNED, result)
+    }
+
+    @Test
+    fun `GIVEN customer can possibly earn a final bonus WHEN finalBonusStatus called THEN return possibleToEarn`() {
+        val input = FinalBonusInput(10.0,
+                0.0,
+                25.0,
+                YearMonthDayInput(2023, 3),
+                YearMonthDayInput(2024, 2, 28),
+                10.0,
+                0.0)
+        val calculation = FinalBonusTermCalculation()
+        val result = calculation.finalBonusStatus(input, 23, 0.0)
+
+        assertEquals(FinalBonusStatus.POSSIBLE_TO_EARN, result)
+    }
+
+    @Test
+    fun `GIVEN customer can not earn final bonus WHEN finalBonusStatus called THEN return cannotEarn`() {
+        val input = FinalBonusInput(50.0,
+                0.0,
+                0.0,
+                YearMonthDayInput(2023, 3),
+                YearMonthDayInput(2024, 2, 28),
+                1200.0,
+                0.0)
+        val calculation = FinalBonusTermCalculation()
+        val result = calculation.finalBonusStatus(input, 22, 50.0)
+
+        assertEquals(FinalBonusStatus.CANNOT_EARN, result)
     }
 }

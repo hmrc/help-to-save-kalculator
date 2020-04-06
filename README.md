@@ -91,7 +91,7 @@ This will returns an object of type `FinalBonusCalculatorResponse`.
 * `totalProjectedSavingsIncludingBonuses: Double`
 * `totalProjectedSavings: Double`
 * `totalProjectedBonuses: Double`
-* `canEarnFinalBonus: Boolean`
+* `finalBonusStatus: FinalBonusStatus`
 
 ## Validation
 
