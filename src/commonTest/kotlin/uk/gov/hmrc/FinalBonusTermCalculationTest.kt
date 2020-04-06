@@ -19,6 +19,7 @@ import kotlin.test.Test
 import kotlin.test.assertEquals
 import uk.gov.hmrc.helptosavecalculator.FinalBonusTermCalculation
 import uk.gov.hmrc.helptosavecalculator.models.FinalBonusInput
+import uk.gov.hmrc.helptosavecalculator.models.FinalBonusStatus
 import uk.gov.hmrc.helptosavecalculator.models.YearMonthDayInput
 
 class FinalBonusTermCalculationTest {
@@ -166,7 +167,7 @@ class FinalBonusTermCalculationTest {
         val calculation = FinalBonusTermCalculation()
         val result = calculation.finalBonusStatus(input, 23, 0.0)
 
-        assertEquals("earned", result)
+        assertEquals(FinalBonusStatus.EARNED, result)
     }
 
     @Test
@@ -181,7 +182,7 @@ class FinalBonusTermCalculationTest {
         val calculation = FinalBonusTermCalculation()
         val result = calculation.finalBonusStatus(input, 23, 0.0)
 
-        assertEquals("possibleToEarn", result)
+        assertEquals(FinalBonusStatus.POSSIBLE_TO_EARN, result)
     }
 
     @Test
@@ -196,6 +197,6 @@ class FinalBonusTermCalculationTest {
         val calculation = FinalBonusTermCalculation()
         val result = calculation.finalBonusStatus(input, 22, 50.0)
 
-        assertEquals("cannotEarn", result)
+        assertEquals(FinalBonusStatus.CANNOT_EARN, result)
     }
 }
