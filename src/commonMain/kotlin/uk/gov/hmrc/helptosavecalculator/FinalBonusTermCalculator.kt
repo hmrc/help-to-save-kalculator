@@ -44,7 +44,7 @@ object FinalBonusTermCalculator {
         val totalProjectedSavingsIncludingBonuses = calculation.calculateTotalProjectedSavingsIncludeBonuses(
                 totalProjectedSavings,
                 totalProjectedBonuses)
-        val finalBonusStatus = calculation.finalBonusStatus(input, monthLeftInScheme, additionalSavingsThisMonth)
+        val finalBonusStatus = calculation.finalBonusStatus(input, monthLeftInScheme)
 
         return FinalBonusCalculatorResponse(
                 totalProjectedSavingsIncludingBonuses,

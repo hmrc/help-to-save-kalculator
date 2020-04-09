@@ -56,10 +56,9 @@ internal class FinalBonusTermCalculation {
 
     fun finalBonusStatus(
         input: FinalBonusInput,
-        monthsLeftInScheme: Int,
-        additionalSavingsThisMonth: Double
+        monthsLeftInScheme: Int
     ): FinalBonusStatus {
-        val highestPossibleBalance = input.currentBalance + additionalSavingsThisMonth + (monthsLeftInScheme * 50)
+        val highestPossibleBalance = input.currentBalance + input.canPayInThisMonth + (monthsLeftInScheme * 50)
         return if (input.secondTermBonusEstimate > 0.0) FinalBonusStatus.EARNED else {
             if (highestPossibleBalance > input.balanceMustBeMoreThanForBonus)
                 FinalBonusStatus.POSSIBLE_TO_EARN else FinalBonusStatus.CANNOT_EARN
