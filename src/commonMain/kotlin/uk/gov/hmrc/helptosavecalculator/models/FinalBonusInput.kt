@@ -19,6 +19,7 @@ data class FinalBonusInput(
     val regularPayment: Double,
     val currentBalance: Double,
     val paidInThisMonth: Double,
+    val canPayInThisMonth: Double,
     val thisMonthEndDate: YearMonthDayInput,
     val secondTermEndDate: YearMonthDayInput,
     val balanceMustBeMoreThanForBonus: Double,

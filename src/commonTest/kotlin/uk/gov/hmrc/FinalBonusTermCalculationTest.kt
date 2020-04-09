@@ -29,6 +29,7 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(25.0,
                 0.0,
                 10.0,
+                40.0,
                 YearMonthDayInput(2022, 3),
                 YearMonthDayInput(2024, 2, 28),
                 0.0,
@@ -43,6 +44,7 @@ class FinalBonusTermCalculationTest {
     fun `GIVEN regular payment is below paid in this month WHEN calculateAdditionalSavingsThisMonth called THEN return zero`() {
         val input = FinalBonusInput(10.0,
                 0.0,
+                25.0,
                 25.0,
                 YearMonthDayInput(2022, 3),
                 YearMonthDayInput(2024, 2, 28),
@@ -69,6 +71,7 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(10.0,
                 0.0,
                 25.0,
+                25.0,
                 YearMonthDayInput(2022, 3),
                 YearMonthDayInput(2024, 2, 28),
                 0.0,
@@ -83,6 +86,7 @@ class FinalBonusTermCalculationTest {
     fun `GIVEN highest balance in final term is above highest balance in first term WHEN calculateTotalProjectedBonuses called THEN return the total`() {
         val input = FinalBonusInput(10.0,
                 0.0,
+                25.0,
                 25.0,
                 YearMonthDayInput(2022, 3),
                 YearMonthDayInput(2024, 2, 28),
@@ -99,6 +103,7 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(10.0,
                 0.0,
                 25.0,
+                25.0,
                 YearMonthDayInput(2022, 3),
                 YearMonthDayInput(2024, 2, 28),
                 10.0,
@@ -113,6 +118,7 @@ class FinalBonusTermCalculationTest {
     fun `GIVEN calculateMaybeHighestBalanceSoFar called THEN return the total`() {
         val input = FinalBonusInput(10.0,
                 0.0,
+                25.0,
                 25.0,
                 YearMonthDayInput(2022, 3),
                 YearMonthDayInput(2024, 2, 28),
@@ -145,6 +151,7 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(10.0,
                 0.0,
                 25.0,
+                25.0,
                 YearMonthDayInput(2023, 3),
                 YearMonthDayInput(2024, 2, 28),
                 10.0,
@@ -160,12 +167,13 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(10.0,
                 0.0,
                 25.0,
+                25.0,
                 YearMonthDayInput(2023, 3),
                 YearMonthDayInput(2024, 2, 28),
                 10.0,
                 5.0)
         val calculation = FinalBonusTermCalculation()
-        val result = calculation.finalBonusStatus(input, 23, 0.0)
+        val result = calculation.finalBonusStatus(input, 23)
 
         assertEquals(FinalBonusStatus.EARNED, result)
     }
@@ -175,12 +183,13 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(10.0,
                 0.0,
                 25.0,
+                25.0,
                 YearMonthDayInput(2023, 3),
                 YearMonthDayInput(2024, 2, 28),
                 10.0,
                 0.0)
         val calculation = FinalBonusTermCalculation()
-        val result = calculation.finalBonusStatus(input, 23, 0.0)
+        val result = calculation.finalBonusStatus(input, 23)
 
         assertEquals(FinalBonusStatus.POSSIBLE_TO_EARN, result)
     }
@@ -190,12 +199,13 @@ class FinalBonusTermCalculationTest {
         val input = FinalBonusInput(50.0,
                 0.0,
                 0.0,
+                25.0,
                 YearMonthDayInput(2023, 3),
                 YearMonthDayInput(2024, 2, 28),
                 1200.0,
                 0.0)
         val calculation = FinalBonusTermCalculation()
-        val result = calculation.finalBonusStatus(input, 22, 50.0)
+        val result = calculation.finalBonusStatus(input, 22)
 
         assertEquals(FinalBonusStatus.CANNOT_EARN, result)
     }

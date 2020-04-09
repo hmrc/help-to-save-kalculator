@@ -80,6 +80,7 @@ Where `input` is of the type `FinalBonusInput` with the following parameters:
 regularPayment: Double,                 // 25.0
 currentBalance: Double,                 // 25.0
 paidInThisMonth: Double,                // 50.0
+canPayInThisMonth: Double,              // 0.0
 thisMonthEndDate: YearMonthDayInput,    // YearMonthDayInput(2022, 3, 31)
 secondTermEndDate: YearMonthDayInput,   // YearMonthDayInput(2024, 2, 28)
 balanceMustBeMoreThanForBonus: Double,  // 50.0
