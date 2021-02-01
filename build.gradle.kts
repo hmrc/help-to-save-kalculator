@@ -3,6 +3,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Properties
 import org.gradle.api.tasks.GradleBuild
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript{
     repositories {
@@ -27,12 +28,20 @@ version = System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
 
 plugins {
     `maven-publish`
-    kotlin("multiplatform").version("1.3.70")
+    kotlin("multiplatform").version("1.4.10")
     jacoco
     java
     id("com.github.dawnwords.jacoco.badge").version("0.1.0")
     id("io.gitlab.arturbosch.detekt").version("1.1.1")
     id("com.jfrog.bintray").version("1.8.4")
+    id("com.chromaticnoise.multiplatform-swiftpackage") version "2.0.3"
+}
+
+multiplatformSwiftPackage {
+    swiftToolsVersion("5.3")
+    targetPlatforms {
+        iOS { v("11") }
+    }
 }
 
 repositories {
@@ -93,7 +102,7 @@ kotlin {
     }
 
     sourceSets {
-        val klockVersion = "1.9.0"
+        val klockVersion = "2.0.1"
         val commonMain by getting {
             dependencies {
                 implementation(kotlin("stdlib-common"))
