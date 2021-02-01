@@ -29,3 +29,5 @@ yarn-error.log
 credentials.properties
 gradlew.bat
 local.properties
+swiftpm
+.DS_Store

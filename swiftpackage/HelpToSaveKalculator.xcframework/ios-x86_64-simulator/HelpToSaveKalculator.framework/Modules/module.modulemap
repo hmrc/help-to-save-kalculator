@@ -1,6 +1,0 @@
-framework module HelpToSaveKalculator {
-    umbrella header "HelpToSaveKalculator.h"
-
-    export *
-    module * { export * }
-}
