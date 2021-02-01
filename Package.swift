@@ -15,7 +15,7 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "HelpToSaveKalculator",
-            path: "swiftpackage/HelpToSaveKalculator.xcframework"
+            url: "https://github.com/hmrc/help-to-save-kalculator/releases/download/0.4.1/HelpToSaveKalculator.xcframework.zip"
         ),
     ]
 )
