@@ -106,15 +106,23 @@ val isBelowMaximumRegularPayments = RegularPaymentValidators.isBelowMaximumRegul
 ## Installation
 
 ### iOS
+#### Swift Package Manager
+- From version `0.5.0` onwards, the use of `Swift Package Manager` is required.
+- Note: Because this operates as a closed source, binary dependency, Swift PM will only work with tagged releases and not branches.
+```swift
+https://github.com/hmrc/help-to-save-kalculator
+```
 
-Each release tag includes a Carthage binary dependency specification. To use the Carthage binary:
+#### Carthage
+- For all versions below `0.5.0`, the use of `Carthage` is required.
+- Each release tag includes a Carthage binary dependency specification. To use the Carthage binary:
 * In the same directory as your Cartfile, add a directory.
 ```shell script
- $ mkdir Carthage-Binaries
+$ mkdir Carthage-Binaries
 ``` 
 * Add a JSON file that holds your Carthage binary specifications.
 ```shell script
- $ touch Carthage-Binaries/HelpToSaveKalculator.json
+$ touch Carthage-Binaries/HelpToSaveKalculator.json
 ```
 * Point to the latest release in your JSON file.
 ```json
