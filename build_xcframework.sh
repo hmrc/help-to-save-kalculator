@@ -25,6 +25,10 @@ else
       if CHECK_SUM=$(swift package compute-checksum HelpToSaveKalculator.xcframework.zip); then
         echo "INFO: $(date +'%c') - Updating Package.swift with checksum ${CHECK_SUM}"
         sed -i .bak "s/checksum.*/checksum: \"${CHECK_SUM}\"/g" ../Package.swift
+
+        sed -i .bak \
+        "s/url: \"https:\/\/github.com\/hmrc\/help-to-save-kalculator\/releases.*/url: \"https\:\/\/github.com\/hmrc\/help-to-save-kalculator\/releases\/download\/${1}\/HelpToSaveKalculator.xcframework.zip\",/g" \
+        ../Package.swift
       else
         echo "ERROR: $(date +'%c') - Failed to create checksum"
       fi
