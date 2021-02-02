@@ -24,8 +24,8 @@ platform :android do
     UI.user_error!("You need to provide a Github Personal token via a `GITHUB_TOKEN` environment variable - you can create a new token on Github https://github.com/settings/tokens/new") unless !ENV["GITHUB_TOKEN"].nil?
 
     # ensure repo is clean and on master
-    # ensure_git_status_clean
-    # ensure_git_branch
+    ensure_git_status_clean
+    ensure_git_branch
 
     # pull latest changes and fetch tags
     git_pull
@@ -50,11 +50,17 @@ platform :android do
       tag = version.increment!(:patch)
     end
 
+    # build the XCFramework
     sh("cd .. && ./build_xcframework.sh #{tag.to_string}")
 
-    # # commit changes
+    # update changelog
+    stamp_changelog(
+      section_identifier: tag.to_string
+    )
+
+    # commit Package.swift and CHANGELOG.md
     git_commit(
-      path: ["Package.swift"],
+      path: ["Package.swift", "CHANGELOG.md"],
       message: "Bump version to #{tag} and tagging release"
     )
     push_to_git_remote
@@ -63,17 +69,18 @@ platform :android do
     add_git_tag(tag: tag.to_string)
     push_git_tags
 
-    # update releases on Github
-    # changelog = read_changelog(
-    #   section_identifier: "[#{tag}]",
-    #   excluded_markdown_elements: []
-    # )
+    changelog = read_changelog(
+      section_identifier: "[#{tag}]",
+      excluded_markdown_elements: []
+    )
+
+    # upload artifacts to tagged Github release
     set_github_release(
       repository_name: "hmrc/help-to-save-kalculator",
       api_token: ENV["GITHUB_TOKEN"],
       name: tag.to_string,
       tag_name: tag.to_string,
-      description: "todo: add changelog",
+      description: changelog,
       upload_assets: ["swiftpm/HelpToSaveKalculator.xcframework.zip"]
     )
   end
