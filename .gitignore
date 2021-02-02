@@ -31,3 +31,5 @@ gradlew.bat
 local.properties
 swiftpm
 .DS_Store
+Package.swift.bak
+fastlane/report.xml
