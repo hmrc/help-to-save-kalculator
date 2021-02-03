@@ -7,6 +7,7 @@
 ![BRANCH](https://img.shields.io/badge/branch--coverage-82%25-brightgreen.svg)
 ![COMPLEXITY](https://img.shields.io/badge/complexity-1.64-brightgreen.svg)
 [ ![Download](https://api.bintray.com/packages/hmrc/mobile-releases/help-to-save-kalculator/images/download.svg) ](https://bintray.com/hmrc/mobile-releases/help-to-save-kalculator/_latestVersion)
+![swift-pm](https://img.shields.io/badge/SwiftPM-Compatible-success.svg)
 ## Calculate help to save bonus
 
 ## For new users
