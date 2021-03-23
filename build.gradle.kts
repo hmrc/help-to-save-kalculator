@@ -23,8 +23,9 @@ buildscript{
 apply(plugin = "uk.gov.hmrc.spotless")
 
 group = "uk.gov.hmrc"
+var artifactId = "help-to-save-kalculator"
 description = "Multiplatform Help To Save Calculator library"
-version = System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
+version = "0.0.2"//System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
 
 plugins {
     `maven-publish`
@@ -186,25 +187,24 @@ detekt {
     }
 }
 
-bintray {
-    val credentials = Properties()
-    rootProject.file("credentials.properties").inputStream().use { credentials.load(it) }
-
-    user = credentials.getProperty("bintray.user")
-    key = credentials.getProperty("bintray.apikey")
-    setPublications("jvm", "metadata")
-
-    publish = true
-
-    pkg = PackageConfig()
-    pkg.repo = "mobile-releases"
-    pkg.name = project.name
-    pkg.userOrg = "hmrc-mobile"
-    pkg.desc = project.description
-    pkg.setLicenses("Apache-2.0")
-    pkg.version.name = project.version.toString()
-    pkg.version.released = Date().toString()
-    pkg.vcsUrl = "https://github.com/hmrc/help-to-save-kalculator"
+publishing {
+    publications {
+        create<MavenPublication>("mavenJava") {
+            groupId = "$group.$artifactId"
+            artifactId = artifactId
+            version = version
+        }
+    }
+    repositories {
+        maven {
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/hmrc/help-to-save-kalculator")
+            credentials {
+                username = System.getenv("GITHUB_USER_NAME")
+                password = System.getenv("GITHUB_TOKEN")
+            }
+        }
+    }
 }
 
 tasks.jacocoTestCoverageVerification {
