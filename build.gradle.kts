@@ -23,9 +23,8 @@ buildscript{
 apply(plugin = "uk.gov.hmrc.spotless")
 
 group = "uk.gov.hmrc"
-var artifactId = "help-to-save-kalculator"
 description = "Multiplatform Help To Save Calculator library"
-version = "0.0.2"//System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
+version = System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
 
 plugins {
     `maven-publish`
@@ -53,6 +52,7 @@ repositories {
  * Declarations
  ***********************************************************************************************************************/
 
+val artifactId = "help-to-save-kalculator"
 val frameworkName = "HelpToSaveKalculator"
 val licenseString = """/*
  * Copyright ${getYear()} HM Revenue & Customs
