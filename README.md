@@ -6,29 +6,27 @@
 ![LINE](https://img.shields.io/badge/line--coverage-98%25-brightgreen.svg)
 ![BRANCH](https://img.shields.io/badge/branch--coverage-82%25-brightgreen.svg)
 ![COMPLEXITY](https://img.shields.io/badge/complexity-1.64-brightgreen.svg)
-[ ![Download](https://api.bintray.com/packages/hmrc/mobile-releases/help-to-save-kalculator/images/download.svg) ](https://bintray.com/hmrc/mobile-releases/help-to-save-kalculator/_latestVersion)
+[![Github](https://img.shields.io/github/release/hmrc/help-to-save-kalculator.svg)](https://gitHub.com/hmrc/help-to-save-kalculator/releases/)  
 ![swift-pm](https://img.shields.io/badge/SwiftPM-Compatible-success.svg)
 ## Calculate help to save bonus
 
 ## For new users
 ```kotlin
-Calculator.run(
-                regularPayment = 50.0             // Must be between 1 and 50   
-)          
+Calculator.run(regularPayment = 50.0) // Must be between 1 and 50)          
 ```
 ## For users with existing accounts
 ```kotlin
 Calculator.run(
-                regularPayment = 50.0,            // Must be between 1 and 50  
-                currentBalance = 100.0,             
-                currentPeriod1Bonus = 50.0, 
-                currentPeriod2Bonus = 0.0,  
-                accountStartDate = DateTime()
+        regularPayment = 50.0, // Must be between 1 and 50  
+        currentBalance = 100.0,             
+        currentPeriod1Bonus = 50.0, 
+        currentPeriod2Bonus = 0.0,  
+        accountStartDate = DateTime()
 )          
 ```
 
 ### Response
-This will returns an object of type `CalculatorResponse`.  This provide headline figures that are the results at the end of the scheme. However, if a monthly breakdown is needed a cumulative breakdown is provided in `monthlyBreakdown`
+This will returns an object of type `CalculatorResponse`.  This provides headline figures that are the results at the end of the scheme. However, if a monthly breakdown is needed a cumulative breakdown is provided in `monthlyBreakdown`
 
 * `monthlyPayments: Double`
 * `monthlyBreakdown: List<MonthlyBreakdown>`
@@ -147,13 +145,17 @@ You may want to implement something like [this](http://ikennd.ac/blog/2015/02/st
 
 ### Android or JVM
 
-Add the mobile-releases bintray repository to your top-level `build.gradle`:
+Add the Github Package repository to your top-level `build.gradle`, along with a Github username and access token (no permissions required).
 
 ```groovy
 repositories {
-    maven {
-        url  "https://dl.bintray.com/hmrc-mobile/mobile-releases" 
+  maven {
+    url = "https://maven.pkg.github.com/hmrc/help-to-save-kalculator"
+    credentials {
+      username = System.getenv("GITHUB_USER_NAME")
+      password = System.getenv("GITHUB_TOKEN")
     }
+  }
 }
 ```
 
