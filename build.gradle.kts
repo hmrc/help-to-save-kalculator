@@ -8,11 +8,15 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 buildscript{
     repositories {
         maven {
-            url = uri("https://dl.bintray.com/hmrc-mobile/mobile-releases")
+            url = uri("https://maven.pkg.github.com/hmrc/mobile-gradle-plugins")
+            credentials {
+                username = System.getenv("GITHUB_USER_NAME")
+                password = System.getenv("GITHUB_TOKEN")
+            }
         }
     }
     dependencies {
-        classpath("uk.gov.hmrc.gradle:spotless:0.1.4")
+        classpath("uk.gov.hmrc.gradle:spotless:0.1.5")
     }
 }
 
@@ -33,16 +37,12 @@ plugins {
     java
     id("com.github.dawnwords.jacoco.badge").version("0.1.0")
     id("io.gitlab.arturbosch.detekt").version("1.1.1")
-    id("com.jfrog.bintray").version("1.8.4")
     id("com.chromaticnoise.multiplatform-swiftpackage").version("2.0.3")
 }
 
 repositories {
     mavenCentral()
     jcenter()
-    jcenter {
-        url = uri("https://hmrc.bintray.com/releases/")
-    }
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
