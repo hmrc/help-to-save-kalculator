@@ -177,6 +177,22 @@ To update the README badges:
 
 `./gradlew cleanBuildTestCoverage`
 
+### Release process
+
+The CI tool has been set up to trigger a build and publish to GitHub packages when a tag is created on a build.
+
+Recommended flow:
+- Raise PR
+- Approved PR
+- Merge
+- Wait for Bitrise to build and test
+- Tag for release
+- Apps update to new version
+
+You need to:
+* Have a valid Bitrise access token saved in your path under the variable name `BITRISE_TOKEN`. See [Bitrise docs](https://devcenter.bitrise.io/api/authentication).
+* Two environment variables, `HTS_KALC_APP_SLUG` & `HTS_KALC_RELEASE_WORKFLOW_ID` will also need to be included in your bash/ZSH profile. Speak with [Chris](https://github.com/chrisob55) to obtain these values.
+
 ### License
 
 This code is open source software licensed under the [Apache 2.0 License]("http://www.apache.org/licenses/LICENSE-2.0.html").
