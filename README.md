@@ -3,30 +3,51 @@
 
 ## Status
 [![Build Status](https://app.bitrise.io/app/6a0a30b884ce6131/status.svg?token=q0pKDUFK3Qfa6sXfy66vog&branch=master)](https://app.bitrise.io/app/6a0a30b884ce6131)
-![LINE](https://img.shields.io/badge/line--coverage-98%25-brightgreen.svg)
-![BRANCH](https://img.shields.io/badge/branch--coverage-82%25-brightgreen.svg)
-![COMPLEXITY](https://img.shields.io/badge/complexity-1.64-brightgreen.svg)
 [![Github](https://img.shields.io/github/release/hmrc/help-to-save-kalculator.svg)](https://gitHub.com/hmrc/help-to-save-kalculator/releases/)  
 ![swift-pm](https://img.shields.io/badge/SwiftPM-Compatible-success.svg)
-## Calculate help to save bonus
 
-## For new users
+# Contents
+* [Bonus for new users](#bonus-for-new-users)
+* [Bonus for existing accounts](#bonus-for-existing-accounts)
+* [Accounts in first term](#accounts-in-first-term)
+* [Existing accounts in final term](#existing-accounts-in-final-term)
+* [Usage](#usage)
+* [Release process](#release-process)
+* [License](#license)
+
+## Bonus for new users
+#### Android
 ```kotlin
 Calculator.run(regularPayment = 50.0) // Must be between 1 and 50)          
 ```
-## For users with existing accounts
+#### iOS
+```swift
+Calculator().run(regularPayment: 50.0) // Must be between 1 and 50)          
+```
+## Bonus for existing accounts
+#### Android
 ```kotlin
 Calculator.run(
-        regularPayment = 50.0, // Must be between 1 and 50  
-        currentBalance = 100.0,             
-        currentPeriod1Bonus = 50.0, 
-        currentPeriod2Bonus = 0.0,  
-        accountStartDate = DateTime()
+    regularPayment = 50.0, // Must be between 1 and 50  
+    currentBalance = 100.0,             
+    currentPeriod1Bonus = 50.0, 
+    currentPeriod2Bonus = 0.0,  
+    accountStartDate = DateTime()
+)          
+```
+#### iOS
+```swift
+Calculator().run(
+    regularPayment: 50.0, // Must be between 1 and 50  
+    currentBalance: 100.0,             
+    currentPeriod1Bonus: 50.0, 
+    currentPeriod2Bonus: 0.0,  
+    accountStartDate: Date()
 )          
 ```
 
-### Response
-This will returns an object of type `CalculatorResponse`.  This provides headline figures that are the results at the end of the scheme. However, if a monthly breakdown is needed a cumulative breakdown is provided in `monthlyBreakdown`
+### Response structure
+This will return an object of type `CalculatorResponse`.  This provides headline figures that are the results at the end of the scheme. However, if a monthly breakdown is needed a cumulative breakdown is provided in `monthlyBreakdown`
 
 * `monthlyPayments: Double`
 * `monthlyBreakdown: List<MonthlyBreakdown>`
@@ -45,9 +66,13 @@ This will returns an object of type `CalculatorResponse`.  This provides headlin
 * `endOfPeriod2Savings: Double`
 * `endOfPeriod2Total: Double`
 
-## For existing accounts in first term
+## Accounts in first term
+#### Android
 ```kotlin
 FirstBonusTermCalculator.runFirstBonusCalculator(input)
+```
+```swift
+FirstBonusTermCalculator().runFirstBonusCalculator(input)
 ```
 Where `input` is of the type `FirstBonusInput` with the following parameters:
 ```
@@ -70,7 +95,7 @@ This will returns an object of type `FirstBonusCalculatorResponse`.
 * `projectedAdditionalSavingsFinalBonusPeriod: Double`
 * `projectedFinalBonus: Double`
 
-## For existing accounts in final term
+## Existing accounts in final term
 ```kotlin
 FinalBonusTermCalculator.runFinalBonusCalculator(input)
 ```
@@ -102,48 +127,20 @@ val isAboveMinimumRegularPayments = RegularPaymentValidators.isAboveMinimumRegul
 val isBelowMaximumRegularPayments = RegularPaymentValidators.isBelowMaximumRegularPayments(50.0) // true
 ```
 
-## Installation
+## Usage
 
 ### iOS
 #### Swift Package Manager
-- From version `0.5.0` onwards, the use of `Swift Package Manager` is required.
-- Note: Because this operates as a closed source, binary dependency, Swift PM will only work with tagged releases and not branches.
+> Because this operates as a closed source, binary dependency, Swift PM will only work with tagged releases and not branches.
 ```swift
 https://github.com/hmrc/help-to-save-kalculator
 ```
 
-#### Carthage
-- For all versions below `0.5.0`, the use of `Carthage` is required.
-- Each release tag includes a Carthage binary dependency specification. To use the Carthage binary:
-* In the same directory as your Cartfile, add a directory.
-```shell script
-$ mkdir Carthage-Binaries
-``` 
-* Add a JSON file that holds your Carthage binary specifications.
-```shell script
-$ touch Carthage-Binaries/HelpToSaveKalculator.json
-```
-* Point to the latest release in your JSON file.
-```json
-    {
-      "0.3.7": "https://github.com/hmrc/help-to-save-kalculator/releases/download/0.3.7/HelpToSaveKalculator.framework.zip"
-    }
-```
-* List the dependency in your Cartfile
-```shell script
-    ...
-    binary "Carthage-Binaries/HelpToSaveKalculator.json" == 0.3.7
-    ...
-```
-* Update your Carthage dependencies as per your requirements.
+#### Simulator Architectures:
+* If the framework is downloaded and linked in the project, it'll be necessary to strip unwanted architectures in a build step.
+  * For example, you may want to implement something like [this](http://ikennd.ac/blog/2015/02/stripping-unwanted-architectures-from-dynamic-libraries-in-xcode/).
 
-#### Simulator Architectures: 
-* Most Carthage users will include a Carthage [copy-frameworks](https://www.raywenderlich.com/416-carthage-tutorial-getting-started) build step that removes unwanted architectures for 
-distribution builds.
-* If you don't use Carthage and just download and link the framework in your project, it'll be necessary to strip unwanted architectures in a build step.
-You may want to implement something like [this](http://ikennd.ac/blog/2015/02/stripping-unwanted-architectures-from-dynamic-libraries-in-xcode/).
-
-### Android or JVM
+### Android & JVM
 
 Add the Github Package repository to your top-level `build.gradle`, along with a Github username and access token (no permissions required).
 
@@ -167,31 +164,27 @@ dependencies {
 }
 ```
 
-## Development
+## Release process
 
-To run unit tests and checks:
+```shell
+bundle exec fastlane tag_release
+```
 
-`./gradlew check`
-
-To update the README badges:
-
-`./gradlew cleanBuildTestCoverage`
-
-### Release process
-
-The CI tool has been set up to trigger a build and publish to GitHub packages when a tag is created on a build.
-
-Recommended flow:
-- Raise PR
-- Approved PR
-- Merge
-- Wait for Bitrise to build and test
-- Tag for release
-- Apps update to new version
-
-You need to:
-* Have a valid Bitrise access token saved in your path under the variable name `BITRISE_TOKEN`. See [Bitrise docs](https://devcenter.bitrise.io/api/authentication).
+### Required
+* A valid Bitrise access token saved in your path under the variable name `BITRISE_TOKEN`. See [Bitrise docs](https://devcenter.bitrise.io/api/authentication).
 * Two environment variables, `HTS_KALC_APP_SLUG` & `HTS_KALC_RELEASE_WORKFLOW_ID` will also need to be included in your bash/ZSH profile. Speak with [Chris](https://github.com/chrisob55) to obtain these values.
+
+### Steps executed
+* Ensure git status is clean
+* Ensure `main` branch
+* Through the interactive shell, select the tag version using semantic versioning.
+* Locally executes `build_xcframework.sh`:
+  * Creates an XCFramework
+  * Computes and updates the checksum in the Swift Package declaration.
+* Stamps the changelog
+* Commit and push the updated `Package.swift` and `CHANGELOG.md`
+* Upload release artifacts to tagged Github release
+* Executes `release.sh` to start the CI pipeline on CI.
 
 ### License
 

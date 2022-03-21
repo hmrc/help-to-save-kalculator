@@ -1,9 +1,5 @@
 import java.text.SimpleDateFormat
-import java.util.Calendar
 import java.util.Date
-import java.util.Properties
-import org.gradle.api.tasks.GradleBuild
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 buildscript{
     repositories {
@@ -20,10 +16,6 @@ buildscript{
     }
 }
 
-
-/***********************************************************************************************************************
- * Project Gradle Config
- ***********************************************************************************************************************/
 apply(plugin = "uk.gov.hmrc.spotless")
 
 group = "uk.gov.hmrc"
@@ -32,12 +24,11 @@ version = System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
 
 plugins {
     `maven-publish`
-    kotlin("multiplatform").version("1.4.10")
-    jacoco
+    kotlin("multiplatform").version("1.6.0")
     java
-    id("com.github.dawnwords.jacoco.badge").version("0.1.0")
-    id("io.gitlab.arturbosch.detekt").version("1.1.1")
+    id("io.gitlab.arturbosch.detekt").version("1.6.0")
     id("com.chromaticnoise.multiplatform-swiftpackage").version("2.0.3")
+    id("org.jetbrains.kotlinx.kover") version "0.5.0"
 }
 
 repositories {
@@ -48,33 +39,10 @@ repositories {
     }
 }
 
-/***********************************************************************************************************************
- * Declarations
- ***********************************************************************************************************************/
-
 val artifactId = "help-to-save-kalculator"
 val frameworkName = "HelpToSaveKalculator"
-val licenseString = """/*
- * Copyright ${getYear()} HM Revenue & Customs
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-"""
 
-/***********************************************************************************************************************
- * Kotlin Configuration
- ***********************************************************************************************************************/
-
+// Configure source sets
 kotlin {
 
     jvm()
@@ -92,7 +60,7 @@ kotlin {
     }
 
     sourceSets.all {
-        languageSettings.useExperimentalAnnotation("kotlin.Experimental")
+        languageSettings.optIn("kotlin.Experimental")
     }
 
     sourceSets {
@@ -107,6 +75,8 @@ kotlin {
             dependencies {
                 implementation(kotlin("test-common"))
                 implementation(kotlin("test-annotations-common"))
+                implementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
+                runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
             }
         }
 
@@ -119,7 +89,8 @@ kotlin {
         val jvmTest by getting {
             dependencies {
                 implementation(kotlin("test"))
-                implementation(kotlin("test-junit"))
+                implementation(kotlin("test-junit5"))
+                implementation("org.junit.jupiter:junit-jupiter-params:5.7.1")
             }
         }
 
@@ -129,8 +100,7 @@ kotlin {
             }
         }
 
-        val iosTest by getting {
-        }
+        val iosTest by getting {}
 
         val iosArm32Main by sourceSets.getting
         val iosArm64Main by sourceSets.getting
@@ -147,10 +117,7 @@ kotlin {
     }
 }
 
-/***********************************************************************************************************************
- * Swift Package Manager Configuration
- ***********************************************************************************************************************/
-
+// Configure Swift Package Manager
 multiplatformSwiftPackage {
     swiftToolsVersion("5.3")
     targetPlatforms {
@@ -159,34 +126,7 @@ multiplatformSwiftPackage {
     outputDirectory(File(projectDir, "build/xcframework"))
 }
 
-/***********************************************************************************************************************
- * Other Task Configuration
- ***********************************************************************************************************************/
-
-configurations {
-    compileClasspath
-}
-
-jacocoBadgeGenSetting {
-
-    jacocoReportPath = "$buildDir/reports/jacoco/commonUnitTestCoverage/commonUnitTestCoverage.xml"
-}
-
-jacoco {
-    toolVersion = "0.8.4"
-}
-
-detekt {
-    input = files("src/commonMain/kotlin")
-    config = files("detekt-config.yml")
-    reports {
-        html {
-            enabled = true
-            destination = file("build/reports/detekt/index.html")
-        }
-    }
-}
-
+// Configure GitHub Packages publishing
 publishing {
     publications {
         create<MavenPublication>("mavenJava") {
@@ -207,68 +147,43 @@ publishing {
     }
 }
 
-tasks.jacocoTestCoverageVerification {
-    group = project.name
-
-    violationRules {
-        rule {
-            limit {
-                minimum = "0.87".toBigDecimal()
-            }
-        }
-    }
-    val excludes = listOf("**/*Test*.*")
-    val coverageSourceDirs = listOf("src/commonMain/kotlin")
-    sourceDirectories.setFrom(files(coverageSourceDirs))
-    classDirectories.setFrom(fileTree("${project.buildDir}/classes/kotlin/jvm/").exclude(excludes))
-    executionData.setFrom(files("${project.buildDir}/jacoco/jvmTest.exec"))
+configurations {
+    compileClasspath
 }
 
+detekt {
+    input = files("src/commonMain/kotlin")
+    config = files("detekt-config.yml")
+    reports {
+        html {
+            enabled = true
+            destination = file("build/reports/detekt/index.html")
+        }
+    }
+}
 
-/***********************************************************************************************************************
- * Custom Functions
- **********************************************************************************************************************/
-fun getYear(): String {
-    return Calendar.getInstance().get(Calendar.YEAR).toString()
+tasks.koverVerify {
+    rule {
+        name = "Coverage rate"
+        bound {
+            minValue = 95
+            valueType = kotlinx.kover.api.VerificationValueType.COVERED_LINES_PERCENTAGE
+        }
+    }
+}
+
+tasks.named<Test>("jvmTest") {
+    useJUnitPlatform()
+    testLogging {
+        showExceptions = true
+        showStandardStreams = true
+        events = setOf(org.gradle.api.tasks.testing.logging.TestLogEvent.FAILED, org.gradle.api.tasks.testing.logging.TestLogEvent.PASSED)
+        exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+    }
 }
 
 fun getDate(): String {
     val date = Date()
     val format = "yyyyMMddHHmm"
     return SimpleDateFormat(format).format(date).toString()
-}
-
-
-/***********************************************************************************************************************
- * Custom Tasks
- ***********************************************************************************************************************/
-
-tasks.register<JacocoReport>("commonUnitTestCoverage") {
-    group = project.name
-    description = "Generate Jacoco coverage reports on the common module build."
-
-    this.dependsOn("allTests")
-    val excludes = listOf("**/*Test*.*")
-    val coverageSourceDirs = listOf("src/commonMain/kotlin")
-    executionData(files("${project.buildDir}/jacoco/jvmTest.exec"))
-
-    reports {
-        xml.isEnabled = true
-        html.isEnabled = true
-        sourceDirectories.setFrom(files(coverageSourceDirs))
-        classDirectories.setFrom(fileTree("${project.buildDir}/classes/kotlin/jvm/").exclude(excludes))
-    }
-}
-
-tasks.register<GradleBuild>("cleanBuildTestCoverage") {
-    group = project.name
-
-    tasks = listOf(
-            "clean",
-            "cleanAllTests",
-            "build",
-            "commonUnitTestCoverage",
-            "generateJacocoBadge",
-            "jacocoTestCoverageVerification"
-    )
 }

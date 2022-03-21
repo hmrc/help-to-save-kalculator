@@ -1,5 +1,5 @@
 /*
- * Copyright 2020 HM Revenue & Customs
+ * Copyright 2022 HM Revenue & Customs
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -58,7 +58,7 @@ internal class FinalBonusTermCalculation {
         input: FinalBonusInput,
         monthsLeftInScheme: Int
     ): FinalBonusStatus {
-        val highestPossibleBalance = input.currentBalance + input.canPayInThisMonth + (monthsLeftInScheme * 50)
+        val highestPossibleBalance = input.currentBalance + input.canPayInThisMonth + (monthsLeftInScheme * FIFTY)
         return if (input.secondTermBonusEstimate > 0.0) FinalBonusStatus.EARNED else {
             if (highestPossibleBalance > input.balanceMustBeMoreThanForBonus)
                 FinalBonusStatus.POSSIBLE_TO_EARN else FinalBonusStatus.CANNOT_EARN
@@ -69,5 +69,9 @@ internal class FinalBonusTermCalculation {
         val thisMonthEndDate = input.thisMonthEndDate.convertToDateTime()
         val secondTermEndDate = input.secondTermEndDate.convertToDateTime()
         return thisMonthEndDate.monthsSince(secondTermEndDate)
+    }
+
+    companion object {
+        private const val FIFTY = 50
     }
 }
