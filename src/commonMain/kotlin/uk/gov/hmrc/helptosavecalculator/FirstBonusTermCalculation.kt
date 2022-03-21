@@ -57,7 +57,7 @@ internal class FirstBonusTermCalculation {
     fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double) =
             highestBalanceFirstBonusPeriod / 2
 
-    fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput) = input.regularPayment * 24
+    fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput) = input.regularPayment * TWENTY_FOUR
 
     fun calculateProjectedFinalBonus(
         highestBalanceFinalBonusPeriod: Double,
@@ -73,5 +73,9 @@ internal class FirstBonusTermCalculation {
         val monthsLeftInScheme = thisMonthEndDate.monthsSince(secondTermEndDate)
         val monthsLeftInFirstTerm = thisMonthEndDate.monthsSince(firstTermEndDate)
         return Pair(monthsLeftInScheme, monthsLeftInFirstTerm)
+    }
+
+    companion object {
+        private const val TWENTY_FOUR = 24
     }
 }

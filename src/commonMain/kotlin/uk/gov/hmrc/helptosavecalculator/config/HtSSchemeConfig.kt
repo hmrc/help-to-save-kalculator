@@ -15,6 +15,7 @@
  */
 package uk.gov.hmrc.helptosavecalculator.config
 
+@Suppress("MagicNumber")
 open class HtSSchemeConfig {
     val endOfSecondBonusPeriod: Int = 48
     val startOfSecondBonusPeriod: Int = 25

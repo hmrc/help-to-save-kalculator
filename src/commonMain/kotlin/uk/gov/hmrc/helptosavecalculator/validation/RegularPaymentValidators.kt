@@ -15,6 +15,7 @@
  */
 package uk.gov.hmrc.helptosavecalculator.validation
 
+@Suppress("MagicNumber")
 object RegularPaymentValidators {
 
     fun isValidRegularPayments(payment: Double) =
