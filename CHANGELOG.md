@@ -5,6 +5,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+
+## [0.7.1] - 2022-12-05Z
 - Updated KMP version and cleaned up gradle scripts.
 
 ## [0.6.0] - 2021-04-07

@@ -15,8 +15,8 @@ let package = Package(
     targets: [
         .binaryTarget(
             name: "HelpToSaveKalculator",
-            url: "https://github.com/hmrc/help-to-save-kalculator/releases/download/0.7.0/HelpToSaveKalculator.xcframework.zip",
-            checksum: "66888dd0d7580d6e78d5dff96c544086e241dae62d45352253a9c224254c8cd6"
+            url: "https://github.com/hmrc/help-to-save-kalculator/releases/download/0.7.1/HelpToSaveKalculator.xcframework.zip",
+            checksum: "034750c0e2b72b855322dce9ef3c3008f250a75a8db516580f6031518fcff0fc"
         ),
     ]
 )
