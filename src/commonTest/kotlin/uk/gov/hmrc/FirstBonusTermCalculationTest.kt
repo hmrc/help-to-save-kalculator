@@ -15,11 +15,11 @@
  */
 package uk.gov.hmrc
 
-import kotlin.test.Test
-import kotlin.test.assertEquals
 import uk.gov.hmrc.helptosavecalculator.FirstBonusTermCalculation
 import uk.gov.hmrc.helptosavecalculator.models.FirstBonusInput
 import uk.gov.hmrc.helptosavecalculator.models.YearMonthDayInput
+import kotlin.test.Test
+import kotlin.test.assertEquals
 
 class FirstBonusTermCalculationTest {
 
@@ -35,13 +35,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN regular payment is above paid in this month WHEN calculateAdditionalSavingsThisMonth called THEN return the total`() {
-        val input = FirstBonusInput(50.0,
-                25.0,
-                25.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                50.0)
+        val input = FirstBonusInput(
+            50.0,
+            25.0,
+            25.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            50.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateAdditionalSavingsThisMonth(input)
 
@@ -50,13 +52,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN regular payment is below paid in this month WHEN calculateAdditionalSavingsThisMonth called THEN return zero`() {
-        val input = FirstBonusInput(25.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                50.0)
+        val input = FirstBonusInput(
+            25.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            50.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateAdditionalSavingsThisMonth(input)
 
@@ -65,13 +69,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN calculateTotalProjectedSavings called THEN return the total`() {
-        val input = FirstBonusInput(25.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                50.0)
+        val input = FirstBonusInput(
+            25.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            50.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateTotalProjectedSavings(input, 2.0, 10)
 
@@ -90,13 +96,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN calculateProjectedSavingsFirstBonusPeriod called THEN return the total`() {
-        val input = FirstBonusInput(25.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                50.0)
+        val input = FirstBonusInput(
+            25.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            50.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateProjectedSavingsFirstBonusPeriod(input, 2.0, 10)
 
@@ -105,13 +113,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN balanceMustBeMoreThanForBonus is above projectedSavingsFirstBonusPeriod WHEN calculateHighestBalanceFirstBonusPeriod called THEN return balanceMustBeMoreThanForBonus`() {
-        val input = FirstBonusInput(25.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                50.0)
+        val input = FirstBonusInput(
+            25.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            50.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateHighestBalanceFirstBonusPeriod(input, 2.0)
 
@@ -120,13 +130,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN balanceMustBeMoreThanForBonus is below projectedSavingsFirstBonusPeriod WHEN calculateHighestBalanceFirstBonusPeriod called THEN return projectedSavingsFirstBonusPeriod`() {
-        val input = FirstBonusInput(25.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                1.0)
+        val input = FirstBonusInput(
+            25.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            1.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateHighestBalanceFirstBonusPeriod(input, 2.0)
 
@@ -143,13 +155,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN calculateProjectedAdditionalSavingsFinalBonusPeriod called THEN return the total`() {
-        val input = FirstBonusInput(10.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                1.0)
+        val input = FirstBonusInput(
+            10.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            1.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateProjectedAdditionalSavingsFinalBonusPeriod(input)
 
@@ -174,13 +188,15 @@ class FirstBonusTermCalculationTest {
 
     @Test
     fun `GIVEN calculateMonthsLeftInScheme called THEN return the remaining months left in scheme`() {
-        val input = FirstBonusInput(10.0,
-                25.0,
-                50.0,
-                YearMonthDayInput(2020, 3),
-                YearMonthDayInput(2022, 2, 28),
-                YearMonthDayInput(2024, 2, 28),
-                1.0)
+        val input = FirstBonusInput(
+            10.0,
+            25.0,
+            50.0,
+            YearMonthDayInput(2020, 3),
+            YearMonthDayInput(2022, 2, 28),
+            YearMonthDayInput(2024, 2, 28),
+            1.0
+        )
         val calculation = FirstBonusTermCalculation()
         val result = calculation.calculateMonthsLeftInScheme(input)
 

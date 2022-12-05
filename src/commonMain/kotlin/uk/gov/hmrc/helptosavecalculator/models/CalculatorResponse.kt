@@ -24,11 +24,11 @@ data class CalculatorResponse(
     val endOfPeriod2Bonus: Double,
     val endOfPeriod2Savings: Double
 ) {
-        val endOfSchemeBonus: Double = endOfPeriod1Bonus + endOfPeriod2Bonus
-        val endOfSchemeTotal: Double = endOfSchemeSavings + endOfSchemeBonus
-        val endOfPeriod1Total: Double = endOfPeriod1Savings + endOfPeriod1Bonus
-        val endOfPeriod2Total: Double = endOfPeriod2Savings + endOfPeriod2Bonus
-    }
+    val endOfSchemeBonus: Double = endOfPeriod1Bonus + endOfPeriod2Bonus
+    val endOfSchemeTotal: Double = endOfSchemeSavings + endOfSchemeBonus
+    val endOfPeriod1Total: Double = endOfPeriod1Savings + endOfPeriod1Bonus
+    val endOfPeriod2Total: Double = endOfPeriod2Savings + endOfPeriod2Bonus
+}
 
 data class MonthlyBreakdown(
     val monthNumber: Int,

@@ -37,7 +37,8 @@ object Calculator : HtSSchemeConfig() {
         accountStartDate: DateTime
     ): CalculatorResponse {
         return calculate(
-            regularPayment, currentBalance, currentFirstPeriodBonus, currentSecondPeriodBonus, accountStartDate)
+            regularPayment, currentBalance, currentFirstPeriodBonus, currentSecondPeriodBonus, accountStartDate
+        )
     }
 
     private fun calculate(
@@ -79,7 +80,9 @@ object Calculator : HtSSchemeConfig() {
                     monthNumber = currentMonth,
                     savingsToDate = endOfSchemeSavings,
                     period1Bonus = endOfPeriod1Bonus,
-                    period2Bonus = endOfPeriod2Bonus))
+                    period2Bonus = endOfPeriod2Bonus
+                )
+            )
             currentMonth++
         }
         return CalculatorResponse(
@@ -89,7 +92,8 @@ object Calculator : HtSSchemeConfig() {
             endOfPeriod1Bonus = endOfPeriod1Bonus,
             endOfPeriod1Savings = endOfPeriod1Savings,
             endOfPeriod2Bonus = endOfPeriod2Bonus,
-            endOfPeriod2Savings = endOfPeriod2Savings)
+            endOfPeriod2Savings = endOfPeriod2Savings
+        )
     }
 
     private fun validateUserInput(regularPayment: Double) {

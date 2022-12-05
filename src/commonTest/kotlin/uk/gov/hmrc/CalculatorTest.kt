@@ -17,46 +17,54 @@ package uk.gov.hmrc
 
 import com.soywiz.klock.DateTime
 import com.soywiz.klock.MonthSpan
-import kotlin.test.Test
-import kotlin.test.assertEquals
-import kotlin.test.assertFailsWith
 import uk.gov.hmrc.helptosavecalculator.Calculator
 import uk.gov.hmrc.helptosavecalculator.exceptions.InvalidRegularPaymentException
 import uk.gov.hmrc.helptosavecalculator.models.MonthlyBreakdown
+import kotlin.test.Test
+import kotlin.test.assertEquals
+import kotlin.test.assertFailsWith
 
 class CalculatorTest {
     @Test
     fun `Gives list of 48 months with breakdown`() {
         assertEquals(
             MonthlyBreakdown(monthNumber = 1, savingsToDate = 50.0, period1Bonus = 25.0, period2Bonus = 0.0),
-            Calculator.run(regularPayment = 50.0).monthlyBreakdown[0])
+            Calculator.run(regularPayment = 50.0).monthlyBreakdown[0]
+        )
         assertEquals(25.0, Calculator.run(regularPayment = 50.0).monthlyBreakdown[0].bonusToDate)
 
         assertEquals(
             MonthlyBreakdown(monthNumber = 2, savingsToDate = 100.0, period1Bonus = 50.0, period2Bonus = 0.0),
-            Calculator.run(regularPayment = 50.0).monthlyBreakdown[1])
+            Calculator.run(regularPayment = 50.0).monthlyBreakdown[1]
+        )
         assertEquals(50.0, Calculator.run(regularPayment = 50.0).monthlyBreakdown[1].bonusToDate)
 
         assertEquals(
             MonthlyBreakdown(monthNumber = 3, savingsToDate = 150.0, period1Bonus = 75.0, period2Bonus = 0.0),
-            Calculator.run(regularPayment = 50.0).monthlyBreakdown[2])
+            Calculator.run(regularPayment = 50.0).monthlyBreakdown[2]
+        )
         assertEquals(50.0, Calculator.run(regularPayment = 50.0).monthlyBreakdown[1].bonusToDate)
 
         assertEquals(
             MonthlyBreakdown(monthNumber = 24, savingsToDate = 1200.0, period1Bonus = 600.0, period2Bonus = 0.0),
-            Calculator.run(regularPayment = 50.0).monthlyBreakdown[23])
+            Calculator.run(regularPayment = 50.0).monthlyBreakdown[23]
+        )
         assertEquals(600.0, Calculator.run(regularPayment = 50.0).monthlyBreakdown[23].bonusToDate)
 
         assertEquals(
             MonthlyBreakdown(
-                monthNumber = 25, savingsToDate = 1250.0, period1Bonus = 600.0, period2Bonus = 25.0),
-            Calculator.run(regularPayment = 50.0).monthlyBreakdown[24])
+                monthNumber = 25, savingsToDate = 1250.0, period1Bonus = 600.0, period2Bonus = 25.0
+            ),
+            Calculator.run(regularPayment = 50.0).monthlyBreakdown[24]
+        )
         assertEquals(625.0, Calculator.run(regularPayment = 50.0).monthlyBreakdown[24].bonusToDate)
 
         assertEquals(
             MonthlyBreakdown(
-                monthNumber = 48, savingsToDate = 2400.0, period1Bonus = 600.0, period2Bonus = 600.0),
-            Calculator.run(regularPayment = 50.0).monthlyBreakdown[47])
+                monthNumber = 48, savingsToDate = 2400.0, period1Bonus = 600.0, period2Bonus = 600.0
+            ),
+            Calculator.run(regularPayment = 50.0).monthlyBreakdown[47]
+        )
         assertEquals(1200.0, Calculator.run(regularPayment = 50.0).monthlyBreakdown[47].bonusToDate)
     }
 
@@ -82,7 +90,9 @@ class CalculatorTest {
             currentFirstPeriodBonus = 50.0,
             currentSecondPeriodBonus = 0.0,
             accountStartDate = DateTime.now().minus(
-                MonthSpan(2)))
+                MonthSpan(2)
+            )
+        )
 
         assertEquals(2400.0, calculator.endOfSchemeSavings)
         assertEquals(1200.0, calculator.endOfSchemeBonus)
@@ -105,7 +115,9 @@ class CalculatorTest {
             currentFirstPeriodBonus = 0.0,
             currentSecondPeriodBonus = 0.0,
             accountStartDate = DateTime.now().minus(
-                MonthSpan(2)))
+                MonthSpan(2)
+            )
+        )
         assertEquals(2300.0, calculator.endOfSchemeSavings)
         assertEquals(1150.0, calculator.endOfSchemeBonus)
         assertEquals(3450.0, calculator.endOfSchemeTotal)
@@ -126,7 +138,9 @@ class CalculatorTest {
             currentFirstPeriodBonus = 0.0,
             currentSecondPeriodBonus = 0.0,
             accountStartDate = DateTime.now().minus(
-                MonthSpan(24)))
+                MonthSpan(24)
+            )
+        )
         assertEquals(1800.0, calculator.endOfSchemeTotal)
         assertEquals(1200.0, calculator.endOfSchemeSavings)
         assertEquals(600.0, calculator.endOfSchemeBonus)

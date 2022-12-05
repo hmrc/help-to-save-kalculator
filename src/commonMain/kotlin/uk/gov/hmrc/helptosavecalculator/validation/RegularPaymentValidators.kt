@@ -20,7 +20,8 @@ object RegularPaymentValidators {
 
     fun isValidRegularPayments(payment: Double) =
         isBelowMaximumRegularPayments(payment) && isAboveMinimumRegularPayments(
-            payment)
+            payment
+        )
 
     fun isAboveMinimumRegularPayments(payment: Double) = payment >= 1.0
 

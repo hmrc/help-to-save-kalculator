@@ -15,12 +15,12 @@
  */
 package uk.gov.hmrc.helptosavecalculator.utils.validators
 
+import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
 import kotlin.test.Test
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
-import uk.gov.hmrc.helptosavecalculator.validation.RegularPaymentValidators
 
-class RegularPaymentValidatorsTests {
+class RegularPaymentValidatorsTest {
 
     @Test
     fun `Validate RegularPayments below minimum`() {
