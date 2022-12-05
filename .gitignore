@@ -24,8 +24,10 @@ yarn-error.log
 
 
 /build/
+buildSrc/build/
 /.idea/
 /.gradle/
+buildSrc/.gradle/
 credentials.properties
 gradlew.bat
 local.properties

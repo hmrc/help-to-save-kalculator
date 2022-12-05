@@ -1,5 +1,6 @@
 import java.text.SimpleDateFormat
 import java.util.Date
+import uk.gov.hmrc.Dependencies
 
 buildscript{
     repositories {
@@ -24,7 +25,7 @@ version = System.getenv("BITRISE_GIT_TAG") ?: ("SNAPSHOT-" + getDate())
 
 plugins {
     `maven-publish`
-    kotlin("multiplatform").version("1.6.0")
+    kotlin("multiplatform").version("1.7.20")
     java
     id("io.gitlab.arturbosch.detekt").version("1.6.0")
     id("com.chromaticnoise.multiplatform-swiftpackage").version("2.0.3")
@@ -33,15 +34,10 @@ plugins {
 
 repositories {
     mavenCentral()
-    jcenter()
     maven {
         url = uri("https://plugins.gradle.org/m2/")
     }
 }
-
-val artifactId = "help-to-save-kalculator"
-val frameworkName = "HelpToSaveKalculator"
-
 // Configure source sets
 kotlin {
 
@@ -53,7 +49,7 @@ kotlin {
     targets{
         configure(listOf(iosX64, iosArm32, iosArm64)) {
             binaries.framework {
-                baseName = frameworkName
+                baseName = Config.frameworkName
                 embedBitcode("disable")
             }
         }
@@ -64,39 +60,48 @@ kotlin {
     }
 
     sourceSets {
-        val klockVersion = "2.0.1"
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
-                implementation("com.soywiz.korlibs.klock:klock:$klockVersion")
+                with(Dependencies.Common.Main) {
+                    implementation(kotlin(stdlib))
+                    implementation(klock)
+                    implementation(kermit)
+                }
             }
         }
         val commonTest by getting {
             dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
-                implementation("io.kotlintest:kotlintest-runner-junit5:3.4.2")
-                runtimeOnly("org.junit.jupiter:junit-jupiter-engine:5.7.1")
+                with(Dependencies.Common.Test) {
+                    implementation(kotlin(uk.gov.hmrc.Dependencies.Common.Test.common))
+                    implementation(kotlin(uk.gov.hmrc.Dependencies.Common.Test.annotations))
+                    implementation(uk.gov.hmrc.Dependencies.Common.Test.junit)
+                    runtimeOnly(uk.gov.hmrc.Dependencies.Common.Test.jupiter)
+                }
             }
         }
 
         val jvmMain by getting {
             dependencies {
-                implementation("com.soywiz.korlibs.klock:klock-jvm:$klockVersion")
-                implementation(kotlin("stdlib"))
+                with(Dependencies.JVM.Main) {
+                    implementation(kotlin(uk.gov.hmrc.Dependencies.JVM.Main.stdlib))
+                }
             }
         }
         val jvmTest by getting {
             dependencies {
-                implementation(kotlin("test"))
-                implementation(kotlin("test-junit5"))
-                implementation("org.junit.jupiter:junit-jupiter-params:5.7.1")
+                with(Dependencies.JVM.Test) {
+                    implementation(kotlin(uk.gov.hmrc.Dependencies.JVM.Test.test))
+                    implementation(kotlin(uk.gov.hmrc.Dependencies.JVM.Test.junit))
+                    implementation(uk.gov.hmrc.Dependencies.JVM.Test.jupiter)
+                }
             }
         }
 
         val iosMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
+                with(Dependencies.IOS.Main) {
+                    implementation(kotlin(uk.gov.hmrc.Dependencies.IOS.Main.stdlib))
+                }
             }
         }
 
@@ -121,7 +126,7 @@ kotlin {
 multiplatformSwiftPackage {
     swiftToolsVersion("5.3")
     targetPlatforms {
-        iOS { v("11") }
+        iOS { v("13") }
     }
     outputDirectory(File(projectDir, "build/xcframework"))
 }
@@ -182,8 +187,21 @@ tasks.named<Test>("jvmTest") {
     }
 }
 
+tasks.named<Jar>("jvmJar") {
+    archiveFileName.set("${Config.artifactId}-$version.jar")
+}
+
+tasks.getByName<org.jetbrains.kotlin.gradle.targets.native.tasks.KotlinNativeSimulatorTest>("iosTest") {
+    deviceId = "iPhone 14"
+}
+
 fun getDate(): String {
     val date = Date()
     val format = "yyyyMMddHHmm"
     return SimpleDateFormat(format).format(date).toString()
+}
+
+object Config {
+    const val artifactId = "help-to-save-kalculator"
+    const val frameworkName = "HelpToSaveKalculator"
 }
