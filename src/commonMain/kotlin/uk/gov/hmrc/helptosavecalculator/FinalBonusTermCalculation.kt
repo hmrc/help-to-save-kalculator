@@ -41,11 +41,11 @@ internal class FinalBonusTermCalculation {
         highestBalanceFinalBonusPeriod: Double,
         input: FinalBonusInput
     ) = if (highestBalanceFinalBonusPeriod > input.balanceMustBeMoreThanForBonus) {
-            (highestBalanceFinalBonusPeriod - input.balanceMustBeMoreThanForBonus) / 2
-        } else 0.0
+        (highestBalanceFinalBonusPeriod - input.balanceMustBeMoreThanForBonus) / 2
+    } else 0.0
 
     fun calculateMaybeHighestBalanceSoFar(input: FinalBonusInput) =
-            input.balanceMustBeMoreThanForBonus + (input.secondTermBonusEstimate * 2)
+        input.balanceMustBeMoreThanForBonus + (input.secondTermBonusEstimate * 2)
 
     fun calculateHighestBalanceFinalBonusPeriod(
         highestBalanceSoFar: Double,

@@ -29,7 +29,8 @@ class CalculatorResponseTest {
             endOfPeriod1Bonus = 600.0,
             endOfPeriod1Savings = 1200.0,
             endOfPeriod2Bonus = 600.0,
-            endOfPeriod2Savings = 1200.0)
+            endOfPeriod2Savings = 1200.0
+        )
 
         assertEquals(calculatorResponse.endOfSchemeBonus, 1200.0)
         assertEquals(calculatorResponse.monthlyPayments, 50.0)
@@ -49,7 +50,8 @@ class CalculatorResponseTest {
     @Test
     fun `Check getters on MonthlyBreakdown`() {
         val monthlyBreakdown = MonthlyBreakdown(
-            monthNumber = 1, savingsToDate = 50.0, period1Bonus = 25.0, period2Bonus = 0.0)
+            monthNumber = 1, savingsToDate = 50.0, period1Bonus = 25.0, period2Bonus = 0.0
+        )
 
         // val balance: Int, val secondYearBonus: Double, val fourthYearBonus: Double
 

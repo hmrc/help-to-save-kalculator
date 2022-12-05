@@ -31,26 +31,31 @@ object FinalBonusTermCalculator {
 
         val monthLeftInScheme = calculation.calculateMonthsLeftInScheme(input)
         val additionalSavingsThisMonth = calculation.calculateAdditionalSavingsThisMonth(input)
-        val totalProjectedSavings = calculation.calculateTotalProjectedSavings(input,
-                additionalSavingsThisMonth,
-                monthLeftInScheme)
+        val totalProjectedSavings = calculation.calculateTotalProjectedSavings(
+            input,
+            additionalSavingsThisMonth,
+            monthLeftInScheme
+        )
         val maybeHighestBalanceSoFar = calculation.calculateMaybeHighestBalanceSoFar(input)
         val highestBalanceFinalBonusPeriod = calculation.calculateHighestBalanceFinalBonusPeriod(
-                maybeHighestBalanceSoFar,
-                totalProjectedSavings)
+            maybeHighestBalanceSoFar,
+            totalProjectedSavings
+        )
         val totalProjectedBonuses = calculation.calculateTotalProjectedBonuses(
-                highestBalanceFinalBonusPeriod,
-                input)
+            highestBalanceFinalBonusPeriod,
+            input
+        )
         val totalProjectedSavingsIncludingBonuses = calculation.calculateTotalProjectedSavingsIncludeBonuses(
-                totalProjectedSavings,
-                totalProjectedBonuses)
+            totalProjectedSavings,
+            totalProjectedBonuses
+        )
         val finalBonusStatus = calculation.finalBonusStatus(input, monthLeftInScheme)
 
         return FinalBonusCalculatorResponse(
-                totalProjectedSavingsIncludingBonuses,
-                totalProjectedSavings,
-                totalProjectedBonuses,
-                finalBonusStatus
+            totalProjectedSavingsIncludingBonuses,
+            totalProjectedSavings,
+            totalProjectedBonuses,
+            finalBonusStatus
         )
     }
 

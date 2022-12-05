@@ -26,7 +26,7 @@ internal class FirstBonusTermCalculation {
     ) = totalProjectedSavings + totalProjectedBonuses
 
     fun calculateAdditionalSavingsThisMonth(input: FirstBonusInput) =
-            if (input.regularPayment > input.paidInThisMonth) {
+        if (input.regularPayment > input.paidInThisMonth) {
             input.regularPayment - input.paidInThisMonth
         } else 0.0
 
@@ -55,7 +55,7 @@ internal class FirstBonusTermCalculation {
     } ?: projectedSavingsFirstBonusPeriod
 
     fun calculateProjectedFirstBonus(highestBalanceFirstBonusPeriod: Double) =
-            highestBalanceFirstBonusPeriod / 2
+        highestBalanceFirstBonusPeriod / 2
 
     fun calculateProjectedAdditionalSavingsFinalBonusPeriod(input: FirstBonusInput) = input.regularPayment * TWENTY_FOUR
 
