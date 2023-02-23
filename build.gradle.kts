@@ -54,6 +54,7 @@ kotlin {
         configure(listOf(iosX64, iosArm32, iosArm64, iosSimulatorArm64)) {
             binaries.framework {
                 baseName = Config.frameworkName
+                xcFramework.add(this)
                 embedBitcode("disable")
             }
         }
