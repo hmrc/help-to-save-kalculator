@@ -6,7 +6,7 @@ if [ -z "$GITHUB_TOKEN" ]; then
 else
   if echo $1 | grep -Eq $SEMVER_REGEX; then
     # Run tests and build xcframework
-    if ./gradlew check && ./gradlew createXCFramework; then
+    if ./gradlew check && ./gradlew assembleHelpToSaveKalculatorXCFramework; then
       DIRECTORY="swiftpm"
       ZIP="HelpToSaveKalculator.xcframework.zip"
       if [ -d "$DIRECTORY" ]; then
@@ -17,7 +17,7 @@ else
       fi
       mkdir $DIRECTORY
       echo "INFO: Copying artifact"
-      cp -r build/xcframework/HelpToSaveKalculator.xcframework $DIRECTORY
+      cp -r build/XCFrameworks/release/HelpToSaveKalculator.xcframework $DIRECTORY
       echo "INFO: Zipping"
       cd $DIRECTORY
       zip -r $ZIP .

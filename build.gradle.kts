@@ -1,3 +1,4 @@
+import org.jetbrains.kotlin.gradle.plugin.mpp.apple.XCFramework
 import java.text.SimpleDateFormat
 import java.util.Date
 import uk.gov.hmrc.Dependencies
@@ -44,10 +45,13 @@ kotlin {
     jvm()
     val iosX64 = iosX64("ios")
     val iosArm32 = iosArm32()
-    val iosArm64 = iosArm64() //Simulator
+    val iosArm64 = iosArm64()
+    val iosSimulatorArm64 = iosSimulatorArm64()
+
+    val xcFramework = XCFramework(Config.frameworkName)
 
     targets{
-        configure(listOf(iosX64, iosArm32, iosArm64)) {
+        configure(listOf(iosX64, iosArm32, iosArm64, iosSimulatorArm64)) {
             binaries.framework {
                 baseName = Config.frameworkName
                 embedBitcode("disable")
@@ -109,14 +113,17 @@ kotlin {
 
         val iosArm32Main by sourceSets.getting
         val iosArm64Main by sourceSets.getting
+        val iosSimulatorArm64Main by sourceSets.getting
 
-        configure(listOf(iosArm32Main, iosArm64Main)) {
+        configure(listOf(iosArm32Main, iosArm64Main, iosSimulatorArm64Main)) {
             dependsOn(iosMain)
         }
 
         val iosArm32Test by sourceSets.getting
         val iosArm64Test by sourceSets.getting
-        configure(listOf(iosArm32Test, iosArm64Test)) {
+        val iosSimulatorArm64Test by sourceSets.getting
+
+        configure(listOf(iosArm32Test, iosArm64Test, iosSimulatorArm64Test)) {
             dependsOn(iosTest)
         }
     }
@@ -126,9 +133,9 @@ kotlin {
 multiplatformSwiftPackage {
     swiftToolsVersion("5.3")
     targetPlatforms {
-        iOS { v("13") }
+        iOS { v("14") }
     }
-    outputDirectory(File(projectDir, "build/xcframework"))
+    outputDirectory(File(projectDir, "build/XCFrameworks/release"))
 }
 
 // Configure GitHub Packages publishing
