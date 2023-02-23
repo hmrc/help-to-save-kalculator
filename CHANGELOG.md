@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ## [Unreleased]
+- Added support for Apple Silicon simulator.
 
 ## [0.7.1] - 2022-12-05Z
 - Updated KMP version and cleaned up gradle scripts.
