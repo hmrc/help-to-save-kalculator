@@ -134,7 +134,7 @@ kotlin {
 multiplatformSwiftPackage {
     swiftToolsVersion("5.3")
     targetPlatforms {
-        iOS { v("14") }
+        iOS { v("13") }
     }
     outputDirectory(File(projectDir, "build/XCFrameworks/release"))
 }
