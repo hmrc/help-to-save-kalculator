@@ -172,7 +172,7 @@ bundle exec fastlane tag_release
 
 ### Required
 * A valid Bitrise access token saved in your path under the variable name `BITRISE_TOKEN`. See [Bitrise docs](https://devcenter.bitrise.io/api/authentication).
-* Two environment variables, `HTS_KALC_APP_SLUG` & `HTS_KALC_RELEASE_WORKFLOW_ID` will also need to be included in your bash/ZSH profile. Speak with [Chris](https://github.com/chrisob55) to obtain these values.
+* Two environment variables, `HTS_KALC_APP_SLUG` & `HTS_KALC_RELEASE_WORKFLOW_ID` will also need to be included in your bash/ZSH profile. These can be found in Bitwarden.
 
 ### Steps executed
 * Ensure git status is clean
